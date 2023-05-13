@@ -18,6 +18,6 @@ jobs:
          quarto --version
       - name: Rerun Quarto documents
         run: |
-          for file in $(find . -name '*.qmd'); do #update ALL Quartos in the repo
+          for file in $(find . -name '*.qmd' -r); do #update ALL Quartos in the repo
             quarto render $file;
           done
