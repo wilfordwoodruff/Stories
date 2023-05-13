@@ -5,7 +5,7 @@ import argparse
 
 def get_data(url, api_key, directory):
     headers = {
-        "Authorization": f"Bearer {api_key}"
+        "Authorization": api_key"
     }
 
     response = requests.get(url, headers=headers)
