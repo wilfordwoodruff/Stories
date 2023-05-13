@@ -1,21 +1,16 @@
-name: Rerun Quarto files on CSV update
 
 on:
   push:
+    branches:
+      - main
     paths:
-      - '*.csv' #should be only the main folder, not subfolders
+      - '**/*.csv'
 
 jobs:
-  rerun_quarto:
+  run-script:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Install Quarto
+      - uses: actions/checkout@v2
+      - name: Run Script
         run: |
-          Rscript -e 'install.packages("quarto")'
-      - name: Rerun Quarto documents
-        run: |
-          for file in $(find . -name '*.qmd'); do #update ALL Quartos in the repo
-            quarto render $file;
-          done
+          echo "A CSV file was pushed to main!"
