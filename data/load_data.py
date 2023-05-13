@@ -3,7 +3,7 @@ import requests
 import re
 import argparse
 
-def get_data(url, api_key):
+def get_data(url, api_key, directory):
     headers = {
         "Authorization": f"Bearer {api_key}"
     }
@@ -21,7 +21,12 @@ def get_data(url, api_key):
         else:
             filename = "pages-export.csv"
 
-        with open(filename, "wb") as f:
+        # Check if the directory exists, if not, create it
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
+        # Write the contents of the file to a local file in the specified directory
+        with open(os.path.join(directory, filename), "wb") as f:
             f.write(response.content)
     else:
         print(f"Error: {response.status_code} - {response.reason}")
@@ -38,4 +43,5 @@ if __name__ == '__main__':
         exit(1)
 
     url = 'https://wilfordwoodruffpapers.org/api/v1/pages/export'
-    get_data(url, api_key)
+    directory = "data/raw"  # Directory to save the data
+    get_data(url, api_key, directory)
