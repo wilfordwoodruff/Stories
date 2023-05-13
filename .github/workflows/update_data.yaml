@@ -9,7 +9,10 @@ jobs:
   update_data:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.TYLER_PAT }}  # Use your PAT instead of GITHUB_TOKEN for checkout
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -20,3 +23,12 @@ jobs:
         pip install requests
     - name: Run script
       run: python data/load_data.py --api_key ${{ secrets.WOODRUFF_AUTHORIZATION_HEADER }}
+    - name: Commit and push changes
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+        git add -A
+        git commit -m "Automated data update" || exit 0  # Exit gracefully if there is nothing to commit
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.TYLER_PAT }}  # Use your PAT for the push operation
