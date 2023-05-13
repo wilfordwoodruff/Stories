@@ -12,9 +12,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Install Quarto
-      - uses: quarto-dev/quarto-actions/setup@v2
-      - run: |
-          quarto --version
+        uses: quarto-dev/quarto-actions/setup@v2
+      - name: Check Version
+        run: |
+         quarto --version
       - name: Rerun Quarto documents
         run: |
           for file in $(find . -name '*.qmd'); do #update ALL Quartos in the repo
