@@ -33,7 +33,7 @@ def get_data(url, api_key, directory):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--api_key', default=os.getenv('API_KEY'), help='API key')
+    parser.add_argument('--api_key', default=os.getenv('WOODRUFF_AUTHORIZATION_HEADER'), help='API key')
     args = parser.parse_args()
 
     api_key = args.api_key
