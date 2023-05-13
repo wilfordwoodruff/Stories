@@ -19,5 +19,6 @@ jobs:
       - name: Rerun Quarto documents
         run: |
           for file in $(find . -name '*.qmd' -r); do #update ALL Quartos in the repo
-            quarto render $file;
+            quarto render $file --output-format html
+            mv "$file.html" "${file%.qmd}.html"
           done
