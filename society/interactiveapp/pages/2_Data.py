@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 def data():
-    df = pd.read_csv("derived_data/cleaned_wwp.csv")
+    df = pd.read_csv("society/notebook/clean_wwp.csv")
     st.title("Wilford Woodruff's Journals Data")
     st.dataframe(df)
 
