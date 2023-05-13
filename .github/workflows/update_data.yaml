@@ -9,7 +9,8 @@ jobs:
   update_data:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -20,12 +21,18 @@ jobs:
         pip install requests
     - name: Run script
       run: python data/load_data.py --api_key ${{ secrets.WOODRUFF_AUTHORIZATION_HEADER }}
-    - name: Commit and push if it's not a pull request
-      if: github.event_name == 'push' || github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && github.repository == github.event.repository.full_name)
+    - name: Commit changes
       run: |
         git config --global user.name 'Automated'
         git config --global user.email 'actions@users.noreply.github.com'
         git add -A
         timestamp=$(date -u)
         git commit -m "Automated data update $timestamp" || exit 0  # Exit gracefully if there is nothing to commit
-        git push
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: "Automated data update"
+        title: "Automated data update"
+        body: "Update data"
+        branch: "automated-data-update"
