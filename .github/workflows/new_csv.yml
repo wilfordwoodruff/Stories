@@ -12,11 +12,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Install Quarto
-        run: |
-          Rscript -e 'install.packages("quarto")'
+      - uses: quarto-dev/quarto-actions/setup@v2
+      - run: |
+          quarto --version
       - name: Rerun Quarto documents
         run: |
           for file in $(find . -name '*.qmd'); do #update ALL Quartos in the repo
             quarto render $file;
           done
-
