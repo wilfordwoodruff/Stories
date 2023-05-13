@@ -204,8 +204,8 @@ for i in topics_list:
 
 
     st.subheader('Save Clean')
-    clean.to_csv('derived_data/cleaned_wwp.csv',index=False)
-    st.code('''clean.to_csv('derived_data/cleaned_wwp',index=False)''', 'python')
+    clean.to_csv('society/notebook/cleaned_wwp.csv',index=False)
+    st.code('''clean.to_csv('society/notebook/cleaned_wwp.csv',index=False)''', 'python')
     st.header('Summary')
     st.write('This is a script written in Python that performs text analysis on a dataset of personal stories. The script defines a list of topics, which are then used to filter the dataset for stories that mention these topics. The script also uses the NLTK library to identify misspelled words and correct them using a stemmer. Finally, the script adds a new column to the dataset called "topics," which contains a list of the topics mentioned in each story. The script outputs the filtered dataset and the new "topics" column.')
     
