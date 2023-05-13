@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Spencer Driggs">
+
+<title>Map Locations by Query</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="Map Locations by Query_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Map Locations by Query_files/libs/quarto-html/quarto.js"></script>
+<script src="Map Locations by Query_files/libs/quarto-html/popper.min.js"></script>
+<script src="Map Locations by Query_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Map Locations by Query_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Map Locations by Query_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Map Locations by Query_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Map Locations by Query_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Map Locations by Query_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Map Locations by Query_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="Map Locations by Query_files/libs/htmlwidgets-1.6.1/htmlwidgets.js"></script>
+<script src="Map Locations by Query_files/libs/jquery-1.12.4/jquery.min.js"></script>
+<link href="Map Locations by Query_files/libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+<script src="Map Locations by Query_files/libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="Map Locations by Query_files/libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+<script src="Map Locations by Query_files/libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="Map Locations by Query_files/libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="Map Locations by Query_files/libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+<script src="Map Locations by Query_files/libs/leaflet-binding-2.1.2/leaflet.js"></script>
+<script src="Map Locations by Query_files/libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="Map Locations by Query_files/libs/leaflet-providers-plugin-2.1.2/leaflet-providers-plugin.js"></script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Map Locations by Query</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Spencer Driggs </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<p>Code inspired and adapted from Clara’s Winter 2023 Project.</p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="fu">library</span>(leaflet.extras2)</span>
+<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#This will be built off of the public pages-export.csv, but only a portion   that was queried to a specific word or subject</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a></span>
+<span id="cb1-8"><a href="#cb1-8"></a>sample_query <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'Sample Subset.csv'</span>)</span>
+<span id="cb1-9"><a href="#cb1-9"></a></span>
+<span id="cb1-10"><a href="#cb1-10"></a>get_map <span class="ot">&lt;-</span> <span class="cf">function</span>(queried_data) {</span>
+<span id="cb1-11"><a href="#cb1-11"></a>  </span>
+<span id="cb1-12"><a href="#cb1-12"></a>  clara_compiled <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/wilfordwoodruff/clara_woodruff_timeline_map/main/data/final_data.csv'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a>    <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(point,state_url,text_transcript)) <span class="sc">%&gt;%</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a>    <span class="fu">rename</span>(<span class="at">state_url =</span> city_url) <span class="sc">%&gt;%</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a>    <span class="fu">rename</span>(<span class="at">city_url =</span> search_url) <span class="sc">%&gt;%</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a>    <span class="fu">mutate</span>(<span class="at">search_url=</span><span class="fu">sapply</span>(<span class="fu">str_split</span>(city_frequency,<span class="st">','</span>), <span class="st">`</span><span class="at">[</span><span class="st">`</span>, <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb1-17"><a href="#cb1-17"></a>  <span class="co">#Still can't remove og url...</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a>    <span class="fu">select</span>(<span class="sc">-</span>city_frequency)</span>
+<span id="cb1-19"><a href="#cb1-19"></a></span>
+<span id="cb1-20"><a href="#cb1-20"></a></span>
+<span id="cb1-21"><a href="#cb1-21"></a><span class="co">#BACKWARDS?</span></span>
+<span id="cb1-22"><a href="#cb1-22"></a>  clara_compiled<span class="sc">$</span>point <span class="ot">&lt;-</span> <span class="fu">st_geometry</span>(<span class="fu">st_as_sf</span>(clara_compiled,<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"lng"</span>,<span class="st">"lat"</span>)))</span>
+<span id="cb1-23"><a href="#cb1-23"></a>  <span class="co">#do these earlier tbh</span></span>
+<span id="cb1-24"><a href="#cb1-24"></a></span>
+<span id="cb1-25"><a href="#cb1-25"></a>  </span>
+<span id="cb1-26"><a href="#cb1-26"></a><span class="co"># Use query and move forward</span></span>
+<span id="cb1-27"><a href="#cb1-27"></a>  data3 <span class="ot">&lt;-</span> clara_compiled <span class="sc">%&gt;%</span></span>
+<span id="cb1-28"><a href="#cb1-28"></a>    <span class="fu">filter</span>(short_url <span class="sc">%in%</span> queried_data<span class="sc">$</span><span class="st">`</span><span class="at">Short URL</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-29"><a href="#cb1-29"></a>    <span class="fu">group_by</span>(lat,lng) <span class="sc">%&gt;%</span></span>
+<span id="cb1-30"><a href="#cb1-30"></a>    <span class="fu">summarise</span>(<span class="at">url=</span><span class="fu">first</span>(search_url),</span>
+<span id="cb1-31"><a href="#cb1-31"></a>              <span class="at">count=</span> <span class="fu">n</span>(),</span>
+<span id="cb1-32"><a href="#cb1-32"></a>              <span class="at">city=</span><span class="fu">first</span>(city),</span>
+<span id="cb1-33"><a href="#cb1-33"></a>              <span class="at">day=</span><span class="fu">first</span>(day),</span>
+<span id="cb1-34"><a href="#cb1-34"></a>              <span class="at">state=</span><span class="fu">first</span>(state_name))</span>
+<span id="cb1-35"><a href="#cb1-35"></a></span>
+<span id="cb1-36"><a href="#cb1-36"></a><span class="co">#Obsolete because date is now built into search interest, plus easier to add other documents</span></span>
+<span id="cb1-37"><a href="#cb1-37"></a><span class="co">#data3$day = as.POSIXct(</span></span>
+<span id="cb1-38"><a href="#cb1-38"></a>  <span class="co">#seq.POSIXt(as.POSIXct(min(data3$day)), as.POSIXct(max(data3$day)), length.out = nrow(data2)))</span></span>
+<span id="cb1-39"><a href="#cb1-39"></a><span class="co">#data3$day = as.Date(data3$day)</span></span>
+<span id="cb1-40"><a href="#cb1-40"></a></span>
+<span id="cb1-41"><a href="#cb1-41"></a></span>
+<span id="cb1-42"><a href="#cb1-42"></a><span class="co"># Original Bins</span></span>
+<span id="cb1-43"><a href="#cb1-43"></a>mybins <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">50</span>,<span class="dv">100</span>,<span class="dv">200</span>,<span class="cn">Inf</span>)</span>
+<span id="cb1-44"><a href="#cb1-44"></a></span>
+<span id="cb1-45"><a href="#cb1-45"></a><span class="co">#Now scaled to search results</span></span>
+<span id="cb1-46"><a href="#cb1-46"></a>max <span class="ot">&lt;-</span> <span class="fu">max</span>(data3<span class="sc">$</span>count)</span>
+<span id="cb1-47"><a href="#cb1-47"></a>mybins <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2</span>, <span class="fu">round</span>(max<span class="sc">/</span><span class="dv">8</span>,<span class="dv">0</span>), <span class="fu">round</span>(max<span class="sc">/</span><span class="dv">4</span>), <span class="fu">round</span>(max<span class="sc">/</span><span class="dv">2</span>,<span class="dv">0</span>), max)</span>
+<span id="cb1-48"><a href="#cb1-48"></a>mypalette <span class="ot">&lt;-</span> <span class="fu">colorBin</span>(<span class="at">palette=</span><span class="st">"YlGnBu"</span>, <span class="at">domain=</span>data3<span class="sc">$</span>count, <span class="at">na.color=</span><span class="st">"transparent"</span>, <span class="at">bins=</span>mybins)</span>
+<span id="cb1-49"><a href="#cb1-49"></a></span>
+<span id="cb1-50"><a href="#cb1-50"></a><span class="co"># creating leaflet graph</span></span>
+<span id="cb1-51"><a href="#cb1-51"></a><span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb1-52"><a href="#cb1-52"></a>  <span class="fu">addProviderTiles</span>(<span class="st">'CartoDB.Positron'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-53"><a href="#cb1-53"></a>  <span class="fu">setView</span>(<span class="sc">-</span><span class="fl">98.5795</span>, <span class="fl">39.8283</span>, <span class="at">zoom =</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-54"><a href="#cb1-54"></a>  <span class="fu">addCircles</span>(<span class="at">data=</span>data3, <span class="at">lng =</span> data3<span class="sc">$</span>lng, <span class="at">lat =</span> data3<span class="sc">$</span>lat, </span>
+<span id="cb1-55"><a href="#cb1-55"></a>             <span class="at">color =</span> <span class="sc">~</span><span class="fu">mypalette</span>(data3<span class="sc">$</span>count), </span>
+<span id="cb1-56"><a href="#cb1-56"></a>             <span class="at">popup =</span> <span class="sc">~</span><span class="fu">paste</span>(<span class="st">"&lt;b&gt;"</span>, <span class="st">"&lt;a href="</span>, data3<span class="sc">$</span>url, <span class="st">"&gt;"</span>, data3<span class="sc">$</span>city, </span>
+<span id="cb1-57"><a href="#cb1-57"></a>                                    <span class="st">"&lt;/a&gt;"</span>, <span class="st">","</span>, <span class="st">"&lt;/b&gt;"</span>, data3<span class="sc">$</span>state, <span class="st">"&lt;br&gt;Number of Mentions:"</span>,</span>
+<span id="cb1-58"><a href="#cb1-58"></a>                                    data3<span class="sc">$</span>count)) <span class="sc">%&gt;%</span></span>
+<span id="cb1-59"><a href="#cb1-59"></a>  <span class="fu">addLegend</span>(<span class="at">data=</span>data3, <span class="at">pal=</span>mypalette, <span class="at">values=</span><span class="sc">~</span>count, <span class="at">opacity=</span><span class="fl">0.9</span>, <span class="at">title =</span> <span class="st">"Mentions"</span>, </span>
+<span id="cb1-60"><a href="#cb1-60"></a>            <span class="at">position =</span> <span class="st">"bottomleft"</span>)</span>
+<span id="cb1-61"><a href="#cb1-61"></a>  </span>
+<span id="cb1-62"><a href="#cb1-62"></a>}</span>
+<span id="cb1-63"><a href="#cb1-63"></a></span>
+<span id="cb1-64"><a href="#cb1-64"></a><span class="fu">get_map</span>(sample_query)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-fc1cad7e3d12ba96c3c2" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-fc1cad7e3d12ba96c3c2">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircles","args":[[32.0281,34.1139,34.1417,34.5018,34.5225,35.0708,35.1053,35.1872,36.0713,36.1124,36.2934,37.0262,37.077,37.1304,37.1311,37.2372,37.2666,37.3904,37.4751,37.5378,37.6834,37.7562,37.8326,38.2759,38.7628,38.7696,38.8863,38.964,38.9935,39.1413,39.2669,39.2876,39.2923,39.3301,39.3443,39.3564,39.4313,39.4413,39.4853,39.5271,39.5408,39.604,39.6281,39.6608,39.7072,39.7097,39.7621,39.771,39.9335,40.0077,40.036,40.0644,40.0652,40.1101,40.1638,40.2457,40.3509,40.3613,40.3792,40.4095,40.4136,40.4143,40.4517,40.5258,40.5393,40.5457,40.5696,40.571,40.5711,40.5848,40.6024,40.6137,40.6148,40.6499,40.6501,40.7245,40.7257,40.7777,40.7886,40.8168,40.8264,40.9107,40.912,40.9803,40.9846,41.0414,41.1599,41.2278,41.2602,41.2602,41.2627,41.2853,41.3022,41.307,41.3112,41.5034,41.5124,41.5212,41.5301,41.5969,41.6223,41.6644,41.6697,41.6758,41.6813,41.74,41.7661,41.8347,41.8373,41.923,41.9615,42.0268,42.1155,42.1382,42.2273,42.2705,42.2749,42.3188,42.326,42.4779,42.5129,42.6664,42.8124,42.8724,42.9016,42.9316,43.0409,43.058,43.0961,43.1698,43.226,43.539,43.5845,43.6773,43.8224,45.5372],[-81.1784,-118.4068,-117.2946,-109.3784,-110.0913,-108.8484,-106.6464,-111.6195,-94.166,-111.2212,-88.3065,-112.5219,-113.577,-113.4877,-113.6561,-113.3471,-113.2951,-113.5061,-105.8769,-113.181,-113.0956,-122.443,-112.8296,-112.6383,-112.0926,-88.5068,-112.4073,-112.3387,-110.1723,-84.5061,-111.6351,-112.6512,-112.629,-110.9628,-90.208,-111.5847,-92.9371,-91.0626,-111.636,-111.5832,-111.4558,-110.8004,-111.6413,-87.4045,-111.8323,-91.3939,-104.8759,-89.6538,-91.3799,-75.1339,-111.7395,-74.5284,-74.9221,-111.6406,-111.6206,-111.6457,-91.4277,-112.4506,-111.7952,-91.403,-111.8726,-91.1276,-109.5379,-91.4158,-112.3082,-91.3829,-74.6092,-111.8505,-111.7959,-90.9698,-112.0008,-111.8144,-112.4777,-111.2723,-73.9496,-74.1725,-111.338,-111.9306,-111.7414,-111.4151,-93.6073,-81.1189,-111.413,-111.4393,-111.9065,-111.6802,-112.2871,-111.9682,-111.7741,-110.9646,-96.0522,-111.9859,-111.8086,-112.0877,-72.9246,-112.0454,-109.4708,-111.1639,-89.2833,-81.3406,-111.943,-111.1857,-70.9428,-72.7862,-73.3523,-111.8419,-72.6834,-111.8266,-87.6862,-111.8075,-111.8797,-96.0905,-72.5395,-72.7561,-111.4032,-71.8079,-85.5882,-71.0846,-111.2988,-70.9663,-70.902,-73.7987,-70.8878,-112.4646,-78.8487,-74.6277,-76.1438,-70.7826,-75.226,-78.6956,-75.4909,-70.4624,-116.5631,-70.2715,-111.792,-122.65],10,null,null,{"interactive":true,"className":"","stroke":true,"color":["#FFFFCC","#FFFFCC","#FFFFCC","#A1DAB4","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#41B6C4","#FFFFCC","#A1DAB4","#A1DAB4","#FFFFCC","#A1DAB4","#FFFFCC","#A1DAB4","#A1DAB4","#A1DAB4","#A1DAB4","#A1DAB4","#FFFFCC","#FFFFCC","#FFFFCC","#A1DAB4","#FFFFCC","#A1DAB4","#A1DAB4","#A1DAB4","#FFFFCC","#FFFFCC","#FFFFCC","#A1DAB4","#FFFFCC","#FFFFCC","#A1DAB4","#A1DAB4","#A1DAB4","#FFFFCC","#A1DAB4","#FFFFCC","#41B6C4","#FFFFCC","#FFFFCC","#FFFFCC","#A1DAB4","#A1DAB4","#FFFFCC","#A1DAB4","#FFFFCC","#A1DAB4","#FFFFCC","#2C7FB8","#FFFFCC","#A1DAB4","#A1DAB4","#FFFFCC","#A1DAB4","#FFFFCC","#FFFFCC","#A1DAB4","#FFFFCC","#2C7FB8","#FFFFCC","#FFFFCC","#A1DAB4","#FFFFCC","#FFFFCC","#A1DAB4","#A1DAB4","#A1DAB4","#A1DAB4","#FFFFCC","#A1DAB4","#253494","#FFFFCC","#A1DAB4","#FFFFCC","#A1DAB4","#A1DAB4","#A1DAB4","#A1DAB4","#A1DAB4","#FFFFCC","#2C7FB8","#A1DAB4","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#A1DAB4","#A1DAB4","#A1DAB4","#FFFFCC","#A1DAB4","#FFFFCC","#A1DAB4","#FFFFCC","#A1DAB4","#FFFFCC","#41B6C4","#A1DAB4","#41B6C4","#A1DAB4","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#A1DAB4","#A1DAB4","#A1DAB4","#FFFFCC","#A1DAB4","#FFFFCC","#FFFFCC","#A1DAB4","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#A1DAB4","#FFFFCC","#FFFFCC","#FFFFCC","#A1DAB4"],"weight":5,"opacity":0.5,"fill":true,"fillColor":["#FFFFCC","#FFFFCC","#FFFFCC","#A1DAB4","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#41B6C4","#FFFFCC","#A1DAB4","#A1DAB4","#FFFFCC","#A1DAB4","#FFFFCC","#A1DAB4","#A1DAB4","#A1DAB4","#A1DAB4","#A1DAB4","#FFFFCC","#FFFFCC","#FFFFCC","#A1DAB4","#FFFFCC","#A1DAB4","#A1DAB4","#A1DAB4","#FFFFCC","#FFFFCC","#FFFFCC","#A1DAB4","#FFFFCC","#FFFFCC","#A1DAB4","#A1DAB4","#A1DAB4","#FFFFCC","#A1DAB4","#FFFFCC","#41B6C4","#FFFFCC","#FFFFCC","#FFFFCC","#A1DAB4","#A1DAB4","#FFFFCC","#A1DAB4","#FFFFCC","#A1DAB4","#FFFFCC","#2C7FB8","#FFFFCC","#A1DAB4","#A1DAB4","#FFFFCC","#A1DAB4","#FFFFCC","#FFFFCC","#A1DAB4","#FFFFCC","#2C7FB8","#FFFFCC","#FFFFCC","#A1DAB4","#FFFFCC","#FFFFCC","#A1DAB4","#A1DAB4","#A1DAB4","#A1DAB4","#FFFFCC","#A1DAB4","#253494","#FFFFCC","#A1DAB4","#FFFFCC","#A1DAB4","#A1DAB4","#A1DAB4","#A1DAB4","#A1DAB4","#FFFFCC","#2C7FB8","#A1DAB4","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#A1DAB4","#A1DAB4","#A1DAB4","#FFFFCC","#A1DAB4","#FFFFCC","#A1DAB4","#FFFFCC","#A1DAB4","#FFFFCC","#41B6C4","#A1DAB4","#41B6C4","#A1DAB4","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#A1DAB4","#A1DAB4","#A1DAB4","#FFFFCC","#A1DAB4","#FFFFCC","#FFFFCC","#A1DAB4","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#FFFFCC","#A1DAB4","#FFFFCC","#FFFFCC","#FFFFCC","#A1DAB4"],"fillOpacity":0.2},["<b> <a href= https://wilfordwoodruffpapers.org/places?search=Savannah+Georgia > Savannah <\/a> , <\/b> Georgia <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Los+Angeles+California > Los Angeles <\/a> , <\/b> California <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=San+Bernardino+California > San Bernardino <\/a> , <\/b> California <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=St.+Johns+Arizona > St. Johns <\/a> , <\/b> Arizona <br>Number of Mentions: 4","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Snowflake+Arizona > Snowflake <\/a> , <\/b> Arizona <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Zuni+Pueblo+New+Mexico > Zuni Pueblo <\/a> , <\/b> New Mexico <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Albuquerque+New+Mexico > Albuquerque <\/a> , <\/b> New Mexico <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Flagstaff+Arizona > Flagstaff <\/a> , <\/b> Arizona <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Fayetteville+Arkansas > Fayetteville <\/a> , <\/b> Arkansas <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Moenkopi+Arizona > Moenkopi <\/a> , <\/b> Arizona <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Paris+Tennessee > Paris <\/a> , <\/b> Tennessee <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Kanab+Utah > Kanab <\/a> , <\/b> Utah <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=St.+George+Utah > St. George <\/a> , <\/b> Utah <br>Number of Mentions: 13","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Washington+Utah > Washington <\/a> , <\/b> Utah <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Santa+Clara+Utah > Santa Clara <\/a> , <\/b> Utah <br>Number of Mentions: 5","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Leeds+Utah > Leeds <\/a> , <\/b> Utah <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Toquerville+Utah > Toquerville <\/a> , <\/b> Utah <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Pine+Valley+Utah > Pine Valley <\/a> , <\/b> Utah <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Alamosa+Colorado > Alamosa <\/a> , <\/b> Colorado <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Kanarraville+Utah > Kanarraville <\/a> , <\/b> Utah <br>Number of Mentions: 3","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Cedar+City+Utah > Cedar City <\/a> , <\/b> Utah <br>Number of Mentions: 4","<b> <a href= https://wilfordwoodruffpapers.org/places?search=San+Francisco+California > San Francisco <\/a> , <\/b> California <br>Number of Mentions: 3","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Parowan+Utah > Parowan <\/a> , <\/b> Utah <br>Number of Mentions: 5","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Beaver+Utah > Beaver <\/a> , <\/b> Utah <br>Number of Mentions: 4","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Richfield+Utah > Richfield <\/a> , <\/b> Utah <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Louisville+Illinois > Louisville <\/a> , <\/b> Illinois <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Meadow+Utah > Meadow <\/a> , <\/b> Utah <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Fillmore+Utah > Fillmore <\/a> , <\/b> Utah <br>Number of Mentions: 5","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Green+River+Utah > Green River <\/a> , <\/b> Utah <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Cincinnati+Ohio > Cincinnati <\/a> , <\/b> Ohio <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Manti+Utah > Manti <\/a> , <\/b> Utah <br>Number of Mentions: 6","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Deseret+Utah > Deseret <\/a> , <\/b> Utah <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Oasis+Utah > Oasis <\/a> , <\/b> Utah <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Huntington+Utah > Huntington <\/a> , <\/b> Utah <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Greenfield+Illinois > Greenfield <\/a> , <\/b> Illinois <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Ephraim+Utah > Ephraim <\/a> , <\/b> Utah <br>Number of Mentions: 4","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Keytesville+Missouri > Keytesville <\/a> , <\/b> Missouri <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Louisiana+Missouri > Louisiana <\/a> , <\/b> Missouri <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Wales+Utah > Wales <\/a> , <\/b> Utah <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Moroni+Utah > Moroni <\/a> , <\/b> Utah <br>Number of Mentions: 4","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Mount+Pleasant+Utah > Mount Pleasant <\/a> , <\/b> Utah <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Price+Utah > Price <\/a> , <\/b> Utah <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Fountain+Green+Utah > Fountain Green <\/a> , <\/b> Utah <br>Number of Mentions: 3","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Clinton+Indiana > Clinton <\/a> , <\/b> Indiana <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Nephi+Utah > Nephi <\/a> , <\/b> Utah <br>Number of Mentions: 9","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Hannibal+Missouri > Hannibal <\/a> , <\/b> Missouri <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Denver+Colorado > Denver <\/a> , <\/b> Colorado <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Springfield+Illinois > Springfield <\/a> , <\/b> Illinois <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Quincy+Illinois > Quincy <\/a> , <\/b> Illinois <br>Number of Mentions: 3","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Philadelphia+Pennsylvania > Philadelphia <\/a> , <\/b> Pennsylvania <br>Number of Mentions: 3","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Payson+Utah > Payson <\/a> , <\/b> Utah <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=New+Egypt+New+Jersey > New Egypt <\/a> , <\/b> New Jersey <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Beverly+New+Jersey > Beverly <\/a> , <\/b> New Jersey <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Spanish+Fork+Utah > Spanish Fork <\/a> , <\/b> Utah <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Springville+Utah > Springville <\/a> , <\/b> Utah <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Provo+Utah > Provo <\/a> , <\/b> Utah <br>Number of Mentions: 17","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Warsaw+Illinois > Warsaw <\/a> , <\/b> Illinois <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Rush+Valley+Utah > Rush Valley <\/a> , <\/b> Utah <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=American+Fork+Utah > American Fork <\/a> , <\/b> Utah <br>Number of Mentions: 5","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Keokuk+Iowa > Keokuk <\/a> , <\/b> Iowa <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Lehi+Utah > Lehi <\/a> , <\/b> Utah <br>Number of Mentions: 3","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Carthage+Illinois > Carthage <\/a> , <\/b> Illinois <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Vernal+Utah > Vernal <\/a> , <\/b> Utah <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Montrose+Iowa > Montrose <\/a> , <\/b> Iowa <br>Number of Mentions: 3","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Tooele+Utah > Tooele <\/a> , <\/b> Utah <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Nauvoo+Illinois > Nauvoo <\/a> , <\/b> Illinois <br>Number of Mentions: 17","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Somerville+New+Jersey > Somerville <\/a> , <\/b> New Jersey <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Sandy+Utah > Sandy <\/a> , <\/b> Utah <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Granite+Utah > Granite <\/a> , <\/b> Utah <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=La+Harpe+Illinois > La Harpe <\/a> , <\/b> Illinois <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=West+Jordan+Utah > West Jordan <\/a> , <\/b> Utah <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Cottonwood+Heights+Utah > Cottonwood Heights <\/a> , <\/b> Utah <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Grantsville+Utah > Grantsville <\/a> , <\/b> Utah <br>Number of Mentions: 3","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Kamas+Utah > Kamas <\/a> , <\/b> Utah <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Brooklyn+New+York > Brooklyn <\/a> , <\/b> New York <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Newark+New+Jersey > Newark <\/a> , <\/b> New Jersey <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Peoa+Utah > Peoa <\/a> , <\/b> Utah <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Salt+Lake+City+Utah > Salt Lake City <\/a> , <\/b> Utah <br>Number of Mentions: 68","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Emigration+Canyon+Utah > Emigration Canyon <\/a> , <\/b> Utah <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Wanship+Utah > Wanship <\/a> , <\/b> Utah <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Garden+Grove+Iowa > Garden Grove <\/a> , <\/b> Iowa <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Alliance+Ohio > Alliance <\/a> , <\/b> Ohio <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Coalville+Utah > Coalville <\/a> , <\/b> Utah <br>Number of Mentions: 3","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Echo+Utah > Echo <\/a> , <\/b> Utah <br>Number of Mentions: 3","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Farmington+Utah > Farmington <\/a> , <\/b> Utah <br>Number of Mentions: 4","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Morgan+Utah > Morgan <\/a> , <\/b> Utah <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Hooper+Utah > Hooper <\/a> , <\/b> Utah <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Ogden+Utah > Ogden <\/a> , <\/b> Utah <br>Number of Mentions: 17","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Huntsville+Utah > Huntsville <\/a> , <\/b> Utah <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Evanston+Wyoming > Evanston <\/a> , <\/b> Wyoming <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Omaha+Nebraska > Omaha <\/a> , <\/b> Nebraska <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Harrisville+Utah > Harrisville <\/a> , <\/b> Utah <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Eden+Utah > Eden <\/a> , <\/b> Utah <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Plain+City+Utah > Plain City <\/a> , <\/b> Utah <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=New+Haven+Connecticut > New Haven <\/a> , <\/b> Connecticut <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Brigham+City+Utah > Brigham City <\/a> , <\/b> Utah <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Green+River+Wyoming > Green River <\/a> , <\/b> Wyoming <br>Number of Mentions: 3","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Woodruff+Utah > Woodruff <\/a> , <\/b> Utah <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=La+Moille+Illinois > La Moille <\/a> , <\/b> Illinois <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Kirtland+Ohio > Kirtland <\/a> , <\/b> Ohio <br>Number of Mentions: 3","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Wellsville+Utah > Wellsville <\/a> , <\/b> Utah <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Randolph+Utah > Randolph <\/a> , <\/b> Utah <br>Number of Mentions: 4","<b> <a href= https://wilfordwoodruffpapers.org/places?search=New+Bedford+Massachusetts > New Bedford <\/a> , <\/b> Massachusetts <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=New+Britain+Connecticut > New Britain <\/a> , <\/b> Connecticut <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=New+Preston+Connecticut > New Preston <\/a> , <\/b> Connecticut <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Logan+Utah > Logan <\/a> , <\/b> Utah <br>Number of Mentions: 15","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Hartford+Connecticut > Hartford <\/a> , <\/b> Connecticut <br>Number of Mentions: 3","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Smithfield+Utah > Smithfield <\/a> , <\/b> Utah <br>Number of Mentions: 8","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Chicago+Illinois > Chicago <\/a> , <\/b> Illinois <br>Number of Mentions: 4","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Richmond+Utah > Richmond <\/a> , <\/b> Utah <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Lewiston+Utah > Lewiston <\/a> , <\/b> Utah <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Onawa+Iowa > Onawa <\/a> , <\/b> Iowa <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Springfield+Massachusetts > Springfield <\/a> , <\/b> Massachusetts <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Westfield+Massachusetts > Westfield <\/a> , <\/b> Massachusetts <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Paris+Idaho > Paris <\/a> , <\/b> Idaho <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Worcester+Massachusetts > Worcester <\/a> , <\/b> Massachusetts <br>Number of Mentions: 3","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Kalamazoo+Michigan > Kalamazoo <\/a> , <\/b> Michigan <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Boston+Massachusetts > Boston <\/a> , <\/b> Massachusetts <br>Number of Mentions: 5","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Montpelier+Idaho > Montpelier <\/a> , <\/b> Idaho <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Lynn+Massachusetts > Lynn <\/a> , <\/b> Massachusetts <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Salem+Massachusetts > Salem <\/a> , <\/b> Massachusetts <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Albany+New+York > Albany <\/a> , <\/b> New York <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Newburyport+Massachusetts > Newburyport <\/a> , <\/b> Massachusetts <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Pocatello+Idaho > Pocatello <\/a> , <\/b> Idaho <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Buffalo+New+York > Buffalo <\/a> , <\/b> New York <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Fort+Plain+New+York > Fort Plain <\/a> , <\/b> New York <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Syracuse+New+York > Syracuse <\/a> , <\/b> New York <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Portsmouth+New+Hampshire > Portsmouth <\/a> , <\/b> New Hampshire <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Utica+New+York > Utica <\/a> , <\/b> New York <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Lockport+New+York > Lockport <\/a> , <\/b> New York <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Rome+New+York > Rome <\/a> , <\/b> New York <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Saco+Maine > Saco <\/a> , <\/b> Maine <br>Number of Mentions: 2","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Nampa+Idaho > Nampa <\/a> , <\/b> Idaho <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Portland+Maine > Portland <\/a> , <\/b> Maine <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Rexburg+Idaho > Rexburg <\/a> , <\/b> Idaho <br>Number of Mentions: 1","<b> <a href= https://wilfordwoodruffpapers.org/places?search=Portland+Oregon > Portland <\/a> , <\/b> Oregon <br>Number of Mentions: 2"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"addLegend","args":[{"colors":["#FFFFCC","#A1DAB4","#41B6C4","#2C7FB8","#253494"],"labels":["0 &ndash; 2","2 &ndash; 8","8 &ndash; 17","17 &ndash; 34","34 &ndash; 68"],"na_color":null,"na_label":"NA","opacity":0.9,"position":"bottomleft","type":"bin","title":"Mentions","extra":null,"layerId":null,"className":"info legend","group":null}]}],"setView":[[39.8283,-98.5795],3,[]],"limits":{"lat":[32.0281,45.5372],"lng":[-122.65,-70.2715]}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
