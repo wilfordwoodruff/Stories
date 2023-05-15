@@ -22,7 +22,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install requests
     - name: Run tests
-      run: python -m unittest code/test/test_raw_data.py # Add this line to run the test
+      run: python -m unittest code.test.test_raw_data.py # Add this line to run the test
     - name: Run script
       run: python code/pipe/load_data.py --api_key ${{ secrets.WOODRUFF_AUTHORIZATION_HEADER }}
     - name: Commit and push changes
