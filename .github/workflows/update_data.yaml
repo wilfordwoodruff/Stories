@@ -25,7 +25,7 @@ jobs:
       run: python -m unittest test_raw_data.py # Add this line to run the test
       working-directory: code/test/
     - name: Delete old data
-      run: rm -f path/to/your/directory/*.csv
+      run: rm -f data/raw/*.csv
     - name: Run script
       run: python code/pipe/load_data.py --api_key ${{ secrets.WOODRUFF_AUTHORIZATION_HEADER }}
     - name: Commit and push changes
