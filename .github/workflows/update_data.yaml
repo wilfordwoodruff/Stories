@@ -21,16 +21,16 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    - name: Run tests
+    - name: Run Test Update Raw Data
       run: python -m unittest test_raw_data.py # Add this line to run the test
-      working-directory: code/test/
-    - name: Run derived data tests
-      run: python -m unittest test_derived_data.py
       working-directory: code/test/
     - name: Delete old data
       run: rm -f data/raw/*.csv
     - name: Run script
       run: python code/pipe/load_data.py --api_key ${{ secrets.WOODRUFF_AUTHORIZATION_HEADER }}
+    - name: Run derived data tests
+      run: python -m unittest test_derived_data.py
+      working-directory: code/test/
     - name: Clean the data
       run: python code/pipe/derived_data.py
     - name: Commit and push changes
