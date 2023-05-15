@@ -2,6 +2,7 @@ import os
 import requests
 import re
 import argparse
+import sys
 
 def get_data(url, api_key, directory):
     headers = {
@@ -30,6 +31,7 @@ def get_data(url, api_key, directory):
             f.write(response.content)
     else:
         print(f"Error: {response.status_code} - {response.reason}")
+        sys.exit(1)  # add this line
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
