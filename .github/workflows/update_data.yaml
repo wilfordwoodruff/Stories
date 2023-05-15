@@ -28,6 +28,8 @@ jobs:
       run: rm -f data/raw/*.csv
     - name: Run script
       run: python code/pipe/load_data.py --api_key ${{ secrets.WOODRUFF_AUTHORIZATION_HEADER }}
+    - name: Clean the data
+      run: python code/pipe/derived_data.py
     - name: Commit and push changes
       run: |
         git config --global user.name 'github-actions[bot]'
