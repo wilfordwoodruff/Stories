@@ -24,6 +24,9 @@ jobs:
     - name: Run tests
       run: python -m unittest test_raw_data.py # Add this line to run the test
       working-directory: code/test/
+    - name: Run derived data tests
+      run: python -m unittest test_derived_data.py
+      working-directory: code/test/
     - name: Delete old data
       run: rm -f data/raw/*.csv
     - name: Run script
