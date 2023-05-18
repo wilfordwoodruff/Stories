@@ -25,5 +25,5 @@ We will set use CI/CD (automation process) to automate the process.
 ## _doc File
 
 ## More Info
-https://wilfordwoodruffpapers.org/
-https://en.wikipedia.org/wiki/Wilford_Woodruff
+- [Main website for his journal](https://wilfordwoodruffpapers.org/)
+- [Wikipedia about Wilford Woodruff](https://en.wikipedia.org/wiki/Wilford_Woodruff)
