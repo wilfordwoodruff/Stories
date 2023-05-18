@@ -27,3 +27,4 @@ We will set use CI/CD (automation process) to automate the process.
 ## More Info
 - [Main website for his journal](https://wilfordwoodruffpapers.org/)
 - [Wikipedia about Wilford Woodruff](https://en.wikipedia.org/wiki/Wilford_Woodruff)
+- [The life and ministry of Wilford Woodruff](https://www.churchofjesuschrist.org/study/manual/teachings-wilford-woodruff/the-life-and-ministry-of-wilford-woodruff?lang=eng)
