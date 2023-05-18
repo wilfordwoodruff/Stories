@@ -19,7 +19,7 @@ We will set use CI/CD (automation process) to automate the process.
 [Click here to access the data file](https://github.com/wilfordwoodruff/Public_Stories/tree/main/data)
 - To access the derived data, you can find it at the following location: [data/derived/derived_data.csv](data/derived/derived_data.csv)
 - To access the derived data, you can find it at the following location: [data/raw/2023-05-15-pages-export.csv](data/raw/2023-05-15-pages-export.csv)
-- 
+
 ## Example Code File
 
 ## _doc File
