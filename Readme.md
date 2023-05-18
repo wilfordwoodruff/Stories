@@ -4,10 +4,10 @@ Wilford Woodruff Sr. (1807–1898) was an American religious leader and the four
 ## Project Outline
 Our goal for this project is to create pipelines that enable anyone to contribute insights by following the instructions provided on this page. We have already developed several projects, one of which is the Woodruff's Travel Timeline Map. This interactive map allows you to explore the places he visited throughout his lifetime. Additionally, we have a couple of ideas for other projects that we are considering:
 
--Discussions of Fishing
--His Proselytizing Missions
--Important People
--Church
+- Discussions of Fishing
+- His Proselytizing Missions
+- Important People
+- Church
 
 
 ## .github/workflows File
