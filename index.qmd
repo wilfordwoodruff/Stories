@@ -1,0 +1,57 @@
+---
+title: "Wilford Woodruff Projects"
+execute:
+    warning: false
+format:
+  html:
+    self-contained: true
+    page-layout: full
+    title-block-banner: true
+    toc: true
+    toc-depth: 3
+    toc-location: body
+    number-sections: false
+    html-math-method: katex
+    code-fold: true
+    code-summary: "Show the code"
+    code-overflow: wrap
+    code-copy: hover
+    code-tools:
+        source: false
+        toggle: true
+        caption: See code
+---    
+
+### Welcome to the BYU-Idaho Project Host 
+
+There's been a lot of work the last few semesters.
+
+<table>
+  <tr>
+    <td><a href="code/Stories/Map Locations by Query.html">
+        <img src="code/icons/scalable map2.png" alt="Easily Queried Map" title='Easily Queried Map'>
+        </a>
+    </td>
+    <td><a href="https://clarabrobergseniorproject.netlify.app/posts/final_project/">
+        <img src="code/icons/claras2.png" alt="Clara's Senior Project" title="Clara's Senior Project">
+        </a>
+    </td>
+  </tr>
+</table>
+
+```{python}
+#| eval: false
+import pandas as pd
+full_data = pd.read_csv('https://raw.githubusercontent.com/wilfordwoodruff/Public_Stories/main/code/Stories/Sample%20Subset.csv')
+ojs_define(my_ojs_data = my_wrangled_r_object)
+#in ojs: df = transpose(my_ojs_data)
+```
+
+```{ojs}
+df = d3.csv("https://raw.githubusercontent.com/wilfordwoodruff/Public_Stories/main/code/Stories/Sample%20Subset.csv")
+
+viewof table = Inputs.table(df, {
+    columns:["Document Type","Short URL",'date',"Topics"],
+    rows:20}
+)
+```
