@@ -22,9 +22,85 @@ format:
         caption: See code
 ---    
 
-### Welcome to the BYU-Idaho Project Host 
+## Welcome to the BYU-Idaho Project Host 
 
-There's been a lot of work the last few semesters.
+There's been a lot of work the last few semesters. This will someday make every page adaptable, so that you can see any group of pages in lots of different ways.
+
+
+
+## Customize your Writings
+```{ojs}
+df = d3.csv("https://raw.githubusercontent.com/wilfordwoodruff/Public_Stories/main/code/Stories/Sample%20Subset.csv")
+
+
+viewof startdate = Inputs.date({label: "Start",value: '1841-01-01', min: "1841-01-01", max: "1898-02-08"})
+
+viewof enddate = Inputs.date({label: "End",value: '1898-02-08', min: "1841-01-01", max: "1898-02-08"})
+
+
+
+viewof journalType = Inputs.checkbox(['Journals','Discourses','Letters','Autobiographies','Additional','Daybooks'],{label:'Document Type', value: ['Journals','Discourses','Letters','Autobiographies','Additional','Daybooks']})
+
+
+viewof text = Inputs.text({label: "Word Search", placeholder: "Only show documents that say..."})
+
+
+```
+
+```{ojs}
+
+searched = df.filter(row => {
+    for (const key in row){
+        if (row.hasOwnProperty(key) && row[key].toString().toLowerCase().includes(text)) {
+            return true;
+        }
+    }
+    return false;
+    })
+    .filter(function(d) {
+        return journalType.includes(d['Document Type']);
+})
+    .filter(d => Date.parse(d.date) > startdate 
+            && Date.parse(d.date) < enddate);
+
+viewof table = Inputs.table(searched, 
+    {
+    columns:["Document Type","Short URL",'date',"Topics"],
+    rows:20}
+)
+```
+<!--
+groups = d3.group(df, d => d['Journal Type'])
+const searchQuery = text.value.toLowerCase();
+const columnValue = row.columnName;
+viewof topics = Inputs.select([null].concat(groups),{label: "Topical Search", multiple: true})
+-->
+viewof submitButton = Inputs.button("Submit Filters")
+
+// Assuming you have a submit button with the ID "submitButton"
+const submitButton = document.getElementById('submitButton');
+
+  const csvContent = d3.csvFormat(yourDataframe);
+
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const downloadLink = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  downloadLink.href = url;
+  downloadLink.download = 'data.csv';
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+  document.body.removeChild(downloadLink);
+});
+
+
+## Submit
+```{ojs}
+import {serialize} from "@palewire/saving-csv"
+DOM.download(serialize(searched), null, "Download CSV")
+```
+
+## Choose your Display
+This will (eventually) automatically export that cut dataframe, push it to Github, then re-render a chosen Quarto using that dataframe. 
 
 <table>
   <tr>
@@ -38,20 +114,3 @@ There's been a lot of work the last few semesters.
     </td>
   </tr>
 </table>
-
-```{python}
-#| eval: false
-import pandas as pd
-full_data = pd.read_csv('https://raw.githubusercontent.com/wilfordwoodruff/Public_Stories/main/code/Stories/Sample%20Subset.csv')
-ojs_define(my_ojs_data = my_wrangled_r_object)
-#in ojs: df = transpose(my_ojs_data)
-```
-
-```{ojs}
-df = d3.csv("https://raw.githubusercontent.com/wilfordwoodruff/Public_Stories/main/code/Stories/Sample%20Subset.csv")
-
-viewof table = Inputs.table(df, {
-    columns:["Document Type","Short URL",'date',"Topics"],
-    rows:20}
-)
-```
