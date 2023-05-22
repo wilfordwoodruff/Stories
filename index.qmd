@@ -47,6 +47,12 @@ viewof text = Inputs.text({label: "Word Search", placeholder: "Only show documen
 
 ```
 
+<!-- Filters each row for...
+1) Word Search- if any column contains that phrase
+2) Document Type- if that column contains any of the checks
+3) Dates- if it is between the Start and End days
+We will add a drop-down list of Topics when it comes
+-->
 ```{ojs}
 
 searched = df.filter(row => {
@@ -74,30 +80,52 @@ groups = d3.group(df, d => d['Journal Type'])
 const searchQuery = text.value.toLowerCase();
 const columnValue = row.columnName;
 viewof topics = Inputs.select([null].concat(groups),{label: "Topical Search", multiple: true})
--->
+
+import {createCSV} from "@resmartizh/export-functions"
+
 viewof submitButton = Inputs.button("Submit Filters")
-
-// Assuming you have a submit button with the ID "submitButton"
-const submitButton = document.getElementById('submitButton');
-
-  const csvContent = d3.csvFormat(yourDataframe);
-
-  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-  const downloadLink = document.createElement('a');
-  const url = URL.createObjectURL(blob);
-  downloadLink.href = url;
-  downloadLink.download = 'data.csv';
-  document.body.appendChild(downloadLink);
-  downloadLink.click();
-  document.body.removeChild(downloadLink);
-});
+makeCSV = {
+    submitButton;
+    createCSV(searched)
+}
+-->
+<button id="pushButton">Push to GitHub</button>
 
 
+<!--
 ## Submit
 ```{ojs}
-import {serialize} from "@palewire/saving-csv"
-DOM.download(serialize(searched), null, "Download CSV")
+//| eval: false
+const fetch = require('fetch')
+const button = document.querySelector('#pushButton');
+button.on('click', async () => {
+  const csvData = searched // Extract your CSV data from the Observable Dataframe
+  
+  const repo = '<Dr-Iggs>/<Public_Stories>'; // GitHub repository in the format: 'username/repository'
+  const path = '<code/Stories>'; // Path to the CSV file within the repository
+  const token = '<your-personal-access-token>'; // Your GitHub personal access token
+
+  const url = `https://api.github.com/repos/${repo}/contents/${path}`;
+
+  const response = await fetch(url, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/vnd.github.v3+json'
+    },
+    body: JSON.stringify({
+      message: 'Update CSV file',
+      content: btoa(csvData), // Encode the CSV data as base64
+      sha: null // Leave it as null to create a new file or specify the sha if updating an existing file
+    })
+  });
+
+  const result = await response.json();
+  console.log(result);
+});
 ```
+-->
 
 ## Choose your Display
 This will (eventually) automatically export that cut dataframe, push it to Github, then re-render a chosen Quarto using that dataframe. 
