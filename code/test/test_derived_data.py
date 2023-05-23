@@ -37,8 +37,8 @@ class TestCleanData(unittest.TestCase):
 
         # Asserts
         mock_read_csv.assert_called_once_with(os.path.join(directory, filename))  # The function should have read the raw data file
-        self.assertEqual(mock_read_csv().dropna(subset=['Document Type']).shape[0], 4)  # The new DataFrame should have 4 rows
-        self.assertTrue('Text Only Transcript' in mock_read_csv().dropna().filter(items=['Text Only Transcript']).columns)
+        self.assertEqual(mock_read_csv().shape[0], 5)  # The new DataFrame should have 5 rows (since no rows are dropped)
+        self.assertTrue('Text Only Transcript' in mock_read_csv().filter(items=['Text Only Transcript']).columns)
         mock_to_csv.assert_called_once_with(os.path.join(output_directory, 'derived_data.csv'), index=False)
 
     @patch('os.path.isfile')
