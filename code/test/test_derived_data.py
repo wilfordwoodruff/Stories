@@ -19,7 +19,7 @@ class TestCleanData(unittest.TestCase):
         # Setup
         directory = "data/raw"
         output_directory = "data/derived"
-        filename = '/*.csv'
+        filename = f'{directory}/*.csv'
         mock_isfile.return_value = True  # Assume the raw data file exists
         mock_makedirs.return_value = None  # No return value for os.makedirs
 
@@ -36,7 +36,7 @@ class TestCleanData(unittest.TestCase):
             clean_data(directory, output_directory)
 
         # Asserts
-        mock_read_csv.assert_called_once_with(os.path.join(directory, filename))  # The function should have read the raw data file
+        mock_read_csv.assert_called_once_with(filename)  # The function should have read the raw data file
         self.assertEqual(mock_read_csv().shape[0], 5)  # The new DataFrame should have 5 rows (since no rows are dropped)
         self.assertTrue('Text Only Transcript' in mock_read_csv().filter(items=['Text Only Transcript']).columns)
         mock_to_csv.assert_called_once_with(os.path.join(output_directory, 'derived_data.csv'), index=False)
@@ -58,3 +58,4 @@ class TestCleanData(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
