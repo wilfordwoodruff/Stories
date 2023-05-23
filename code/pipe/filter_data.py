@@ -24,6 +24,10 @@ def filter_by_topic(df, topic):
     # Return only the rows of the DataFrame where the mask is True
     return df[mask]
 
+def filter_by_date_range(df, date_from, date_to):
+    date_range = pd.date_range(start=date_from, end=date_to)
+    return df[df['Date'].dt.date.isin(date_range.date)]
+
 if __name__ == '__main__':
     df = pd.read_csv('data/derived/derived_data.csv')
 
@@ -33,3 +37,4 @@ if __name__ == '__main__':
     df = filter_by_date_range(df, '1836-09-10', '1836-09-12')
 
     print(df)
+
