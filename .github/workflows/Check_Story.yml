@@ -1,0 +1,48 @@
+name: Story Validation Workflow
+on:
+  workflow_dispatch:
+  
+jobs:
+  story_validation:
+    runs-on: ubuntu-latest 
+    steps:
+    - name: Checkout repository 
+      uses: actions/checkout@v2 
+      
+    - name: Set up Node.js 
+      uses: actions/setup-node@v2 
+      with:
+        node-version: '14' 
+    
+    - name: Install dependencies 
+      run: npm install 
+      
+    - name: Validate stories 
+      run: |
+        # Check if each pushed file has .qmd and .md extensions 
+        for file in $(git diff --name-only HEAD^ HEAD --diff-filter=d --stories/); do 
+          if [[ "$file" != *.qmd ]] && [[ "file" != *.md ]]; then 
+            echo "Invalid file extension: $file" 
+            exit 1 
+          fi
+        done 
+        
+        # Render .qmd files 
+        for file in $(git diff --name-only HEAD^ HEAD --diff-filter=d --stories/); do 
+          if [[ "$file" == *.qmd ]]; then 
+            echo "Rendering $file" 
+            node render-qmd.js $file
+          fi 
+        done 
+        
+        # Apply linting to .md files 
+        for file in $(git diff --name-only HEAD^ HEAD --diff-filter=d --stories/); do 
+          if [[ "$file" == *.md ]]; then 
+            echo "Linting $file"
+            npx markdownlint $file 
+          fi 
+        done 
+          
+    
+
+
