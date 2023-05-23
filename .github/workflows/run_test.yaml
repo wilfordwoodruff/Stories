@@ -31,3 +31,4 @@ jobs:
         pip install -r requirements.txt
     - name: Run filter data tests
       run: python -m unittest test_filter.py
+      working-directory: code/test/
