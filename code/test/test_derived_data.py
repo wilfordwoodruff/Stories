@@ -19,7 +19,7 @@ class TestCleanData(unittest.TestCase):
         # Setup
         directory = "data/raw"
         output_directory = "data/derived"
-        filename = '2023-05-15-pages-export.csv'
+        filename = '*.csv'
         mock_isfile.return_value = True  # Assume the raw data file exists
         mock_makedirs.return_value = None  # No return value for os.makedirs
 
