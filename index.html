@@ -21888,6 +21888,7 @@ initializeRuntime();
   <ul>
   <li><a href="#welcome-to-the-byu-idaho-project-host" id="toc-welcome-to-the-byu-idaho-project-host">Welcome to the BYU-Idaho Project Host</a></li>
   <li><a href="#customize-your-writings" id="toc-customize-your-writings">Customize your Writings</a></li>
+  <li><a href="#submit" id="toc-submit">Submit</a></li>
   <li><a href="#choose-your-display" id="toc-choose-your-display">Choose your Display</a></li>
   </ul>
 </nav>
@@ -21996,7 +21997,6 @@ We will add a drop-down list of Topics when it comes
 </div>
 <!--
 groups = d3.group(df, d => d['Journal Type'])
-const searchQuery = text.value.toLowerCase();
 const columnValue = row.columnName;
 viewof topics = Inputs.select([null].concat(groups),{label: "Topical Search", multiple: true})
 
@@ -22008,60 +22008,123 @@ makeCSV = {
     createCSV(searched)
 }
 -->
-<button id="pushButton">
-Push to GitHub
+<button onclick="pushToGitHub()">
+Push CSV to GitHub
 </button>
-<!--
-## Submit
-
-
-
-:::{.quarto-ojs-syntax-error}
-
-````{.numberLines .java startFrom="97" syntax-error-position="0" source-offset="9"}
-```{ojs}
-//| eval: false
-const fetch = require('fetch')
-const button = document.querySelector('#pushButton');
-button.on('click', async () => {
-  const csvData = searched // Extract your CSV data from the Observable Dataframe
+<script>function pushToGitHub() {
+    // Define the repository details
+    const owner = 'wilfordwoodruff';
+    const repo = 'Public_Stories';
+    const filePath = 'society/user_query.csv'; // The desired path and name of the CSV file in the repository
   
-  const repo = '<Dr-Iggs>/<Public_Stories>'; // GitHub repository in the format: 'username/repository'
-  const path = '<code/Stories>'; // Path to the CSV file within the repository
-  const token = '<your-personal-access-token>'; // Your GitHub personal access token
-
-  const url = `https://api.github.com/repos/${repo}/contents/${path}`;
-
-  const response = await fetch(url, {
-    method: 'PUT',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-      'Accept': 'application/vnd.github.v3+json'
-    },
-    body: JSON.stringify({
-      message: 'Update CSV file',
-      content: btoa(csvData), // Encode the CSV data as base64
-      sha: null // Leave it as null to create a new file or specify the sha if updating an existing file
+    // Define the content of the CSV file
+    const csvContent = searched;
+    let text = "Dataframe is: "
+    alert(text.concat(csvContent))
+  
+    // Set up the GitHub API endpoint
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
+  
+    // Create the file using the GitHub API
+    fetch(apiUrl, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer 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' // Replace with your personal access token
+      },
+      body: JSON.stringify({
+        message: 'Add CSV file',
+        content: btoa(csvContent) // Encode the CSV content as base64
+      })
     })
-  });
+    .then(response => {
+      if (response.ok) {
+        alert('CSV file pushed to GitHub successfully!');
+      } else {
+        alert('Failed to push CSV file to GitHub.');
+      }
+    })
+    .catch(error => {
+      alert('An error occurred while pushing the CSV file to GitHub.');
+      console.error(error);
+    });
+  }
 
-  const result = await response.json();
-  console.log(result);
-});
-```
-````
+// Attach event handler to the button's click event
+const myButton = document.getElementById('pushtoGithub()');
+myButton.addEventListener('click', function() {
+  // Pass the variable to the handleClick function
+  const myVariable = 'Hello, world!';
+  handleClick(myVariable);
+});</script>
+</section>
+<section id="submit" class="level2">
+<h2 class="anchored" data-anchor-id="submit">Submit</h2>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb3" data-startfrom="98" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 97;"><span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a>viewof submitButton <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">button</span>(<span class="st">&quot;Submit Filters&quot;</span>)</span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a>pushToGitHub<span class="op">=</span> {</span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a>  submitButton<span class="op">;</span></span>
+<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Define the repository details</span></span>
+<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> owner <span class="op">=</span> <span class="st">&#39;wilfordwoodruff&#39;</span><span class="op">;</span></span>
+<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> repo <span class="op">=</span> <span class="st">&#39;Public_Stories&#39;</span><span class="op">;</span></span>
+<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> filePath <span class="op">=</span> <span class="st">&#39;society/user_query.csv&#39;</span><span class="op">;</span> <span class="co">// The desired path and name of the CSV file in the repository</span></span>
+<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Set up the GitHub API endpoint</span></span>
+<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> apiUrl <span class="op">=</span> <span class="vs">`https://api.github.com/repos/</span><span class="sc">${</span>owner<span class="sc">}</span><span class="vs">/</span><span class="sc">${</span>repo<span class="sc">}</span><span class="vs">/contents/</span><span class="sc">${</span>filePath<span class="sc">}</span><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Create the file using the GitHub API</span></span>
+<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fetch</span>(apiUrl<span class="op">,</span> {</span>
+<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a>      <span class="dt">method</span><span class="op">:</span> <span class="st">&#39;PUT&#39;</span><span class="op">,</span></span>
+<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a>      <span class="dt">headers</span><span class="op">:</span> {</span>
+<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a>        <span class="st">&#39;Content-Type&#39;</span><span class="op">:</span> <span class="st">&#39;application/json&#39;</span><span class="op">,</span></span>
+<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a>        <span class="st">&#39;Authorization&#39;</span><span class="op">:</span> <span class="st">&#39;Bearer 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&#39;</span> <span class="co">// Replace with your personal access token</span></span>
+<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a>      <span class="dt">body</span><span class="op">:</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>({</span>
+<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a>        <span class="dt">message</span><span class="op">:</span> <span class="st">&#39;Add CSV file&#39;</span><span class="op">,</span></span>
+<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a>        <span class="dt">content</span><span class="op">:</span> <span class="fu">btoa</span>(searched) <span class="co">// Encode the CSV content as base64</span></span>
+<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a>      })</span>
+<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">then</span>(response <span class="kw">=&gt;</span> {</span>
+<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (response<span class="op">.</span><span class="at">ok</span>) {</span>
+<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a>        <span class="fu">alert</span>(<span class="st">&#39;CSV file pushed to GitHub successfully!&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> {</span>
+<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a>        <span class="fu">alert</span>(<span class="st">&#39;Failed to push CSV file to GitHub.&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">catch</span>(error <span class="kw">=&gt;</span> {</span>
+<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a>      <span class="fu">alert</span>(<span class="st">&#39;An error occurred while pushing the CSV file to GitHub.&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(error)<span class="op">;</span></span>
+<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-1" data-nodetype="declaration">
 
-:::{.cell-output .cell-output-error}
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-2" data-nodetype="declaration">
 
-:::{.callout-important}
-#### OJS Syntax Error (line 99, column 1)Unexpected token
-:::
-:::
-:::
+</div>
+</div>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb4" data-startfrom="135" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 134;"><span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a>submitButton</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="ojs-cell-4" data-nodetype="expression">
 
-
--->
+</div>
+</div>
+</div>
 </section>
 <section id="choose-your-display" class="level2">
 <h2 class="anchored" data-anchor-id="choose-your-display">Choose your Display</h2>
@@ -22084,7 +22147,7 @@ button.on('click', async () => {
 <!-- /main column -->
 
 <script type="ojs-module-contents">
-{"contents":[{"methodName":"interpret","cellName":"ojs-cell-1","inline":false,"source":"df = d3.csv(\"https://raw.githubusercontent.com/wilfordwoodruff/Public_Stories/main/code/Stories/Sample%20Subset.csv\")\n\n\nviewof startdate = Inputs.date({label: \"Start\",value: '1841-01-01', min: \"1841-01-01\", max: \"1898-02-08\"})\n\nviewof enddate = Inputs.date({label: \"End\",value: '1898-02-08', min: \"1841-01-01\", max: \"1898-02-08\"})\n\n\n\nviewof journalType = Inputs.checkbox(['Journals','Discourses','Letters','Autobiographies','Additional','Daybooks'],{label:'Document Type', value: ['Journals','Discourses','Letters','Autobiographies','Additional','Daybooks']})\n\n\nviewof text = Inputs.text({label: \"Word Search\", placeholder: \"Only show documents that say...\"})\n\n\n"},{"methodName":"interpret","cellName":"ojs-cell-2","inline":false,"source":"\nsearched = df.filter(row => {\n    for (const key in row){\n        if (row.hasOwnProperty(key) && row[key].toString().toLowerCase().includes(text)) {\n            return true;\n        }\n    }\n    return false;\n    })\n    .filter(function(d) {\n        return journalType.includes(d['Document Type']);\n})\n    .filter(d => Date.parse(d.date) > startdate \n            && Date.parse(d.date) < enddate);\n\nviewof table = Inputs.table(searched, \n    {\n    columns:[\"Document Type\",\"Short URL\",'date',\"Topics\"],\n    rows:20}\n)\n"},{"methodName":"interpretQuiet","source":"shinyInput('startdate')"},{"methodName":"interpretQuiet","source":"shinyInput('enddate')"},{"methodName":"interpretQuiet","source":"shinyInput('journalType')"},{"methodName":"interpretQuiet","source":"shinyInput('text')"},{"methodName":"interpretQuiet","source":"shinyInput('table')"}]}
+{"contents":[{"methodName":"interpret","cellName":"ojs-cell-1","inline":false,"source":"df = d3.csv(\"https://raw.githubusercontent.com/wilfordwoodruff/Public_Stories/main/code/Stories/Sample%20Subset.csv\")\n\n\nviewof startdate = Inputs.date({label: \"Start\",value: '1841-01-01', min: \"1841-01-01\", max: \"1898-02-08\"})\n\nviewof enddate = Inputs.date({label: \"End\",value: '1898-02-08', min: \"1841-01-01\", max: \"1898-02-08\"})\n\n\n\nviewof journalType = Inputs.checkbox(['Journals','Discourses','Letters','Autobiographies','Additional','Daybooks'],{label:'Document Type', value: ['Journals','Discourses','Letters','Autobiographies','Additional','Daybooks']})\n\n\nviewof text = Inputs.text({label: \"Word Search\", placeholder: \"Only show documents that say...\"})\n\n\n"},{"methodName":"interpret","cellName":"ojs-cell-2","inline":false,"source":"\nsearched = df.filter(row => {\n    for (const key in row){\n        if (row.hasOwnProperty(key) && row[key].toString().toLowerCase().includes(text)) {\n            return true;\n        }\n    }\n    return false;\n    })\n    .filter(function(d) {\n        return journalType.includes(d['Document Type']);\n})\n    .filter(d => Date.parse(d.date) > startdate \n            && Date.parse(d.date) < enddate);\n\nviewof table = Inputs.table(searched, \n    {\n    columns:[\"Document Type\",\"Short URL\",'date',\"Topics\"],\n    rows:20}\n)\n"},{"methodName":"interpret","cellName":"ojs-cell-3","inline":false,"source":"viewof submitButton = Inputs.button(\"Submit Filters\")\npushToGitHub= {\n  submitButton;\n  // Define the repository details\n  let owner = 'wilfordwoodruff';\n  let repo = 'Public_Stories';\n  let filePath = 'society/user_query.csv'; // The desired path and name of the CSV file in the repository\n \n    // Set up the GitHub API endpoint\n    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;\n  \n    // Create the file using the GitHub API\n    fetch(apiUrl, {\n      method: 'PUT',\n      headers: {\n        'Content-Type': 'application/json',\n        'Authorization': 'Bearer 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' // Replace with your personal access token\n      },\n      body: JSON.stringify({\n        message: 'Add CSV file',\n        content: btoa(searched) // Encode the CSV content as base64\n      })\n    })\n    .then(response => {\n      if (response.ok) {\n        alert('CSV file pushed to GitHub successfully!');\n      } else {\n        alert('Failed to push CSV file to GitHub.');\n      }\n    })\n    .catch(error => {\n      alert('An error occurred while pushing the CSV file to GitHub.');\n      console.error(error);\n    });\n  }\n"},{"methodName":"interpret","cellName":"ojs-cell-4","inline":false,"source":"submitButton\n"},{"methodName":"interpretQuiet","source":"shinyInput('startdate')"},{"methodName":"interpretQuiet","source":"shinyInput('enddate')"},{"methodName":"interpretQuiet","source":"shinyInput('journalType')"},{"methodName":"interpretQuiet","source":"shinyInput('text')"},{"methodName":"interpretQuiet","source":"shinyInput('table')"},{"methodName":"interpretQuiet","source":"shinyInput('submitButton')"}]}
 </script>
 <script type="module">
 window._ojs.runtime.setLocalResolver({});
