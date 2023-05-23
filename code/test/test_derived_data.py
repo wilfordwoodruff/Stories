@@ -13,14 +13,14 @@ from derived_data import clean_data
 
 class TestCleanData(unittest.TestCase):
     @patch('pandas.read_csv')
-    @patch('os.path.isfile')
+    @patch('glob.glob')
     @patch('os.makedirs')
-    def test_clean_data_success(self, mock_makedirs, mock_isfile, mock_read_csv):
+    def test_clean_data_success(self, mock_makedirs, mock_glob, mock_read_csv):
         # Setup
         directory = "data/raw"
         output_directory = "data/derived"
-        filename = f'{directory}/*.csv'
-        mock_isfile.return_value = True  # Assume the raw data file exists
+        filename_pattern = f'{directory}/*.csv'
+        mock_glob.return_value = ['test.csv']  # Assume a CSV file exists
         mock_makedirs.return_value = None  # No return value for os.makedirs
 
         # Create a mock DataFrame for pandas.read_csv
@@ -36,10 +36,11 @@ class TestCleanData(unittest.TestCase):
             clean_data(directory, output_directory)
 
         # Asserts
-        mock_read_csv.assert_called_once_with(filename)  # The function should have read the raw data file
+        mock_read_csv.assert_called_once_with('test.csv')  # The function should have read the raw data file
         self.assertEqual(mock_read_csv().shape[0], 5)  # The new DataFrame should have 5 rows (since no rows are dropped)
         self.assertTrue('Text Only Transcript' in mock_read_csv().filter(items=['Text Only Transcript']).columns)
         mock_to_csv.assert_called_once_with(os.path.join(output_directory, 'derived_data.csv'), index=False)
+
 
     @patch('os.path.isfile')
     def test_clean_data_error(self, mock_isfile):
