@@ -2,7 +2,7 @@ name: Update Data
 
 on:
   schedule:
-    - cron: '0 0 * * 0'  # This runs the action every Sunday at midnight
+    - cron: '0 0 * * 1'  # This runs the action every Monday at midnight
   workflow_dispatch:  # This allows the action to be run manually from the Actions tab
 
 jobs:
