@@ -2,7 +2,7 @@ import os
 import pandas as pd
 
 def clean_data(directory, output_directory):
-    filename = '2023-05-15-pages-export.csv'
+    filename = '**.csv'
     output_filename = 'derived_data.csv'
     
     # Check if the raw data file exists
