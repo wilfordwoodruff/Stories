@@ -1,19 +1,14 @@
 import pandas as pd
-from fuzzywuzzy import fuzz
+from Levenshtein import ratio
 
 def filter_by_document_type(df, document_type):
     return df[df['Document Type'].str.lower() == document_type.lower()]
 
-def filter_by_keyword(df, keyword, threshold=70):
-    def contains_fuzzy(word_list, keyword):
-        if isinstance(word_list, str):
-            words = word_list.split()
-            scores = [fuzz.ratio(word, keyword) for word in words]
-            return any(score > threshold for score in scores)
-        else:
-            return False
-
-    mask = df['Text Only Transcript'].apply(contains_fuzzy, keyword=keyword)
+def filter_by_keyword(df, keyword, threshold=0.8):
+    # Create a mask where each element is True if the keyword is in the corresponding element of the 'Text Only Transcript' column
+    mask = df['Text Only Transcript'].apply(lambda x: ratio(str(x).lower(), keyword.lower()) > threshold if pd.notnull(x) else False)
+    
+    # Return a new dataframe consisting only of the rows where the mask is True
     return df[mask]
 
 def filter_by_topic(df, topic):
