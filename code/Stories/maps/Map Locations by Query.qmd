@@ -1,0 +1,81 @@
+---
+title: "Map Locations by Query"
+author: "Spencer Driggs"
+execute:
+  keep-md: false
+  warning: false
+format:
+  html:
+    code-fold: true
+    code-line-numbers: true
+---
+
+Code inspired and adapted from Clara's Winter 2023 Project.
+
+```{r,warning=FALSE,comment=FALSE,message=FALSE}
+library(tidyverse)
+library(sf)
+library(leaflet)
+library(leaflet.extras2)
+
+#This will be built off of the public pages-export.csv, but only a portion   that was queried to a specific word or subject
+
+sample_query <- read_csv('Sample Subset.csv')
+
+get_map <- function(queried_data) {
+  
+  clara_compiled <- read_csv('https://raw.githubusercontent.com/wilfordwoodruff/clara_woodruff_timeline_map/main/data/final_data.csv') %>%
+    select(-c(point,state_url,text_transcript)) %>%
+    rename(state_url = city_url) %>%
+    rename(city_url = search_url) %>%
+    mutate(search_url=sapply(str_split(city_frequency,','), `[`, 1)) %>%
+  #Still can't remove og url...
+    select(-city_frequency)
+
+
+#BACKWARDS?
+  clara_compiled$point <- st_geometry(st_as_sf(clara_compiled,coords = c("lng","lat")))
+  #do these earlier tbh
+
+  
+# Use query and move forward
+  data3 <- clara_compiled %>%
+    filter(short_url %in% queried_data$`Short URL`) %>%
+    group_by(lat,lng) %>%
+    summarise(url=first(search_url),
+              count= n(),
+              city=first(city),
+              day=first(day),
+              state=first(state_name))
+
+#Obsolete because date is now built into search interest, plus easier to add other documents
+#data3$day = as.POSIXct(
+  #seq.POSIXt(as.POSIXct(min(data3$day)), as.POSIXct(max(data3$day)), length.out = nrow(data2)))
+#data3$day = as.Date(data3$day)
+
+
+# Original Bins
+mybins <- c(0,2,5,10,50,100,200,Inf)
+
+#Now scaled to search results
+max <- max(data3$count)
+mybins <- c(0, 2, round(max/8,0), round(max/4), round(max/2,0), max)
+mypalette <- colorBin(palette="YlGnBu", domain=data3$count, na.color="transparent", bins=mybins)
+
+# creating leaflet graph
+leaflet() %>%
+  addProviderTiles('CartoDB.Positron') %>%
+  setView(-98.5795, 39.8283, zoom = 3) %>%
+  addCircles(data=data3, lng = data3$lng, lat = data3$lat, 
+             color = ~mypalette(data3$count), 
+             popup = ~paste("<b>", "<a href=", data3$url, ">", data3$city, 
+                                    "</a>", ",", "</b>", data3$state, "<br>Number of Mentions:",
+                                    data3$count)) %>%
+  addLegend(data=data3, pal=mypalette, values=~count, opacity=0.9, title = "Mentions", 
+            position = "bottomleft")
+  
+}
+
+get_map(sample_query)
+```    
+    
