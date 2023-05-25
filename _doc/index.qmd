@@ -30,7 +30,9 @@ There's been a lot of work the last few semesters. This will someday make every 
 
 ## Customize your Writings
 ```{ojs}
-df = d3.csv("https://raw.githubusercontent.com/wilfordwoodruff/Public_Stories/main/code/Stories/Sample%20Subset.csv")
+
+df = d3.csv("https://raw.githubusercontent.com/wilfordwoodruff/Public_Stories/main/data/derived/derived_data.csv")
+//Date format changed from sample, needs new column
 
 // Starting date, match the first journal
 viewof startdate = Inputs.date({label: "Start",value: '1841-01-01', min: "1841-01-01", max: "1898-02-08"})
@@ -54,6 +56,40 @@ viewof text = Inputs.text({label: "Word Search", placeholder: "Only show documen
 3) Dates- if it is between the Start and End days
 We will add a drop-down list of Topics when it comes
 -->
+
+## Community Filters
+
+```{ojs}
+//get csv from Google Drive, make each row like full={Name: __,StartDate:__}
+communityList = [
+  {name:'Set to Default',StartDate:'1840-04-04',EndDate:'1880-04-04'},
+  {name:'Ducks',StartDate:'1840-08-04',EndDate:'1880-04-04'}
+]
+viewof community = Inputs.radio(communityList, {label: "Public Options",
+sort: true, format: x => x.name})
+//maybe use MAP in the future
+community.StartDate
+```
+
+```{ojs}
+function set(input, value) {
+  input.value = value;
+  input.dispatchEvent(new Event("input", {bubbles: true}));
+}
+
+Inputs.button([
+  ["Set end date to 1880", () => set(viewof enddate, '1880-01-01')],
+  ["Set start date to 1840", () => set(viewof startdate, '1840-01-01')]
+])
+```
+
+::: {.panel-tabset}
+
+## Plots
+
+The charts will go here someday
+
+## Table
 ```{ojs}
 
 searched = df.filter(row => {
@@ -77,6 +113,7 @@ viewof table = Inputs.table(searched,
     rows:20}
 )
 ```
+:::
 <!--
 groups = d3.group(df, d => d['Journal Type'])
 const columnValue = row.columnName;
@@ -96,47 +133,7 @@ makeCSV = {
 -->
 ## Submit
 
-```{ojs}
-viewof submitButton = Inputs.button("Submit Filters")
-pushToGitHub= {
-  submitButton;
-  // Define the repository details
-  let owner = 'wilfordwoodruff';
-  let repo = 'Public_Stories';
-  let filePath = 'society/user_query.csv'; // The desired path and name of the CSV file in the repository
- 
-    // Set up the GitHub API endpoint
-    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
-  
-    // Create the file using the GitHub API
-    fetch(apiUrl, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer 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' // Replace with your personal access token
-      },
-      body: JSON.stringify({
-        message: 'Add CSV file',
-        content: btoa(searched) // Encode the CSV content as base64
-      })
-    })
-    .then(response => {
-      if (response.ok) {
-        alert('CSV file pushed to GitHub successfully!');
-      } else {
-        alert('Failed to push CSV file to GitHub.');
-      }
-    })
-    .catch(error => {
-      alert('An error occurred while pushing the CSV file to GitHub.');
-      console.error(error);
-    });
-  }
-```
 
-```{ojs}
-submitButton
-```
 
 
 
@@ -145,12 +142,12 @@ This will (eventually) automatically export that cut dataframe, push it to Githu
 
 <table>
   <tr>
-    <td><a href="code/Stories/Map Locations by Query.html">
-        <img src="code/icons/scalable map2.png" alt="Easily Queried Map" title='Easily Queried Map'>
+    <td><a href="../code/Stories/Map Locations by Query.html">
+        <img src="../code/icons/scalable map2.png" alt="Easily Queried Map" title='Easily Queried Map'>
         </a>
     </td>
     <td><a href="https://clarabrobergseniorproject.netlify.app/posts/final_project/">
-        <img src="code/icons/claras2.png" alt="Clara's Senior Project" title="Clara's Senior Project">
+        <img src="../code/icons/claras2.png" alt="Clara's Senior Project" title="Clara's Senior Project">
         </a>
     </td>
   </tr>
