@@ -4,6 +4,8 @@ execute:
     warning: false
 format:
   html:
+    include-in-header:
+      - text: <script src="script.js"></script>
     self-contained: true
     page-layout: full
     title-block-banner: true
@@ -26,6 +28,15 @@ format:
 
 There's been a lot of work the last few semesters. This will someday make every page adaptable, so that you can see any group of pages in lots of different ways.
 
+```{r}
+library(googledrive)
+library(googlesheets4)
+drive_id <- drive_find('User Stories') #maybe not needed
+#tell terminal to answer "2"
+stories <- drive_get(drive_id$id) %>%
+  read_sheet()
+ojs_define(ojs_stories = stories)
+```
 
 
 ## Customize your Writings
@@ -59,16 +70,15 @@ We will add a drop-down list of Topics when it comes
 
 ## Community Filters
 
+Future Stuff
 ```{ojs}
 //get csv from Google Drive, make each row like full={Name: __,StartDate:__}
+
 communityList = [
-  {name:'Set to Default',StartDate:'1840-04-04',EndDate:'1880-04-04'},
-  {name:'Ducks',StartDate:'1840-08-04',EndDate:'1880-04-04'}
+  {Name:'Set to Default',StartDate:'1840-04-04',EndDate:'1880-04-04'},
+  {Name:'Ducks',StartDate:'1840-08-04',EndDate:'1880-04-04'}
 ]
-viewof community = Inputs.radio(communityList, {label: "Public Options",
-sort: true, format: x => x.name})
-//maybe use MAP in the future
-community.StartDate
+
 ```
 
 ```{ojs}
@@ -76,10 +86,13 @@ function set(input, value) {
   input.value = value;
   input.dispatchEvent(new Event("input", {bubbles: true}));
 }
+story_df = transpose(ojs_stories)
 
 Inputs.button([
-  ["Set end date to 1880", () => set(viewof enddate, '1880-01-01')],
-  ["Set start date to 1840", () => set(viewof startdate, '1840-01-01')]
+  [communityList[0].Name, () => [set(viewof enddate, communityList[0].EndDate),
+                                set(viewof startdate, communityList[0].StartDate)]],
+  [story_df[0].Name, () => [set(viewof enddate, story_df[0].EndDate),
+                                set(viewof startdate, story_df[0].StartDate)]]
 ])
 ```
 
@@ -127,14 +140,11 @@ makeCSV = {
     createCSV(searched)
 }
 
-
-<button onclick="pushToGitHub()">Push CSV to GitHub</button>
-  <script src="script.js"></script>
 -->
+
 ## Submit
 
-
-
+<button id="myButton">Save your Story</button>
 
 
 ## Choose your Display

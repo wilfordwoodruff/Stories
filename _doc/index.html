@@ -21854,6 +21854,18 @@ initializeRuntime();
 // export default init;
 
 </script>
+<script type="ojs-define">
+{"contents":[{"name":"ojs_stories","value":{"Name":["Ducks!"],"StartDate":["1840-04-04"],"EndDate":["1880-04-04"],"Words":["duck"],"WritingType":["Journals,Autobiographies"],"TimeSent":[null],"UserDescription":["My girlfriend really likes ducks."]}}]}
+</script>
+<script>document.addEventListener("DOMContentLoaded", function() {
+    var button = document.getElementById("myButton");
+    button.addEventListener("click", function() {
+      // Your complex JavaScript event goes here
+      console.log("Button clicked!");
+      // Add more code here as needed
+    });
+  });
+  </script>
 
 
 </head>
@@ -21896,27 +21908,39 @@ initializeRuntime();
 <section id="welcome-to-the-byu-idaho-project-host" class="level2">
 <h2 class="anchored" data-anchor-id="welcome-to-the-byu-idaho-project-host">Welcome to the BYU-Idaho Project Host</h2>
 <p>There’s been a lot of work the last few semesters. This will someday make every page adaptable, so that you can see any group of pages in lots of different ways.</p>
+<div class="cell">
+<details>
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(googledrive)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(googlesheets4)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>drive_id <span class="ot">&lt;-</span> <span class="fu">drive_find</span>(<span class="st">&#39;User Stories&#39;</span>) <span class="co">#maybe not needed</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#tell terminal to answer &quot;2&quot;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>stories <span class="ot">&lt;-</span> <span class="fu">drive_get</span>(drive_id<span class="sc">$</span>id) <span class="sc">%&gt;%</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_sheet</span>()</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ojs_define</span>(<span class="at">ojs_stories =</span> stories)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
 <section id="customize-your-writings" class="level2">
 <h2 class="anchored" data-anchor-id="customize-your-writings">Customize your Writings</h2>
 <div class="cell">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb1" data-startfrom="34" data-source-offset="-2"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 33;"><span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> d3<span class="op">.</span><span class="fu">csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/wilfordwoodruff/Public_Stories/main/data/derived/derived_data.csv&quot;</span>)</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co">//Date format changed from sample, needs new column</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">// Starting date, match the first journal</span></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>viewof startdate <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">date</span>({<span class="dt">label</span><span class="op">:</span> <span class="st">&quot;Start&quot;</span><span class="op">,</span><span class="dt">value</span><span class="op">:</span> <span class="st">&#39;1841-01-01&#39;</span><span class="op">,</span> <span class="dt">min</span><span class="op">:</span> <span class="st">&quot;1841-01-01&quot;</span><span class="op">,</span> <span class="dt">max</span><span class="op">:</span> <span class="st">&quot;1898-02-08&quot;</span>})</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co">// End date, matches the last journal</span></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>viewof enddate <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">date</span>({<span class="dt">label</span><span class="op">:</span> <span class="st">&quot;End&quot;</span><span class="op">,</span><span class="dt">value</span><span class="op">:</span> <span class="st">&#39;1898-02-08&#39;</span><span class="op">,</span> <span class="dt">min</span><span class="op">:</span> <span class="st">&quot;1841-01-01&quot;</span><span class="op">,</span> <span class="dt">max</span><span class="op">:</span> <span class="st">&quot;1898-02-08&quot;</span>})</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co">// Pick which journal type to see</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>viewof journalType <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">checkbox</span>([<span class="st">&#39;Journals&#39;</span><span class="op">,</span><span class="st">&#39;Discourses&#39;</span><span class="op">,</span><span class="st">&#39;Letters&#39;</span><span class="op">,</span><span class="st">&#39;Autobiographies&#39;</span><span class="op">,</span><span class="st">&#39;Additional&#39;</span><span class="op">,</span><span class="st">&#39;Daybooks&#39;</span>]<span class="op">,</span>{<span class="dt">label</span><span class="op">:</span><span class="st">&#39;Document Type&#39;</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> [<span class="st">&#39;Journals&#39;</span><span class="op">,</span><span class="st">&#39;Discourses&#39;</span><span class="op">,</span><span class="st">&#39;Letters&#39;</span><span class="op">,</span><span class="st">&#39;Autobiographies&#39;</span><span class="op">,</span><span class="st">&#39;Additional&#39;</span><span class="op">,</span><span class="st">&#39;Daybooks&#39;</span>]})</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co">// Text to search by</span></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>viewof text <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">text</span>({<span class="dt">label</span><span class="op">:</span> <span class="st">&quot;Word Search&quot;</span><span class="op">,</span> <span class="dt">placeholder</span><span class="op">:</span> <span class="st">&quot;Only show documents that say...&quot;</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2" data-startfrom="45" data-source-offset="-1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 44;"><span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> d3<span class="op">.</span><span class="fu">csv</span>(<span class="st">&quot;https://raw.githubusercontent.com/wilfordwoodruff/Public_Stories/main/data/derived/derived_data.csv&quot;</span>)</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="co">//Date format changed from sample, needs new column</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a><span class="co">// Starting date, match the first journal</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>viewof startdate <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">date</span>({<span class="dt">label</span><span class="op">:</span> <span class="st">&quot;Start&quot;</span><span class="op">,</span><span class="dt">value</span><span class="op">:</span> <span class="st">&#39;1841-01-01&#39;</span><span class="op">,</span> <span class="dt">min</span><span class="op">:</span> <span class="st">&quot;1841-01-01&quot;</span><span class="op">,</span> <span class="dt">max</span><span class="op">:</span> <span class="st">&quot;1898-02-08&quot;</span>})</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a><span class="co">// End date, matches the last journal</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>viewof enddate <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">date</span>({<span class="dt">label</span><span class="op">:</span> <span class="st">&quot;End&quot;</span><span class="op">,</span><span class="dt">value</span><span class="op">:</span> <span class="st">&#39;1898-02-08&#39;</span><span class="op">,</span> <span class="dt">min</span><span class="op">:</span> <span class="st">&quot;1841-01-01&quot;</span><span class="op">,</span> <span class="dt">max</span><span class="op">:</span> <span class="st">&quot;1898-02-08&quot;</span>})</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a><span class="co">// Pick which journal type to see</span></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>viewof journalType <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">checkbox</span>([<span class="st">&#39;Journals&#39;</span><span class="op">,</span><span class="st">&#39;Discourses&#39;</span><span class="op">,</span><span class="st">&#39;Letters&#39;</span><span class="op">,</span><span class="st">&#39;Autobiographies&#39;</span><span class="op">,</span><span class="st">&#39;Additional&#39;</span><span class="op">,</span><span class="st">&#39;Daybooks&#39;</span>]<span class="op">,</span>{<span class="dt">label</span><span class="op">:</span><span class="st">&#39;Document Type&#39;</span><span class="op">,</span> <span class="dt">value</span><span class="op">:</span> [<span class="st">&#39;Journals&#39;</span><span class="op">,</span><span class="st">&#39;Discourses&#39;</span><span class="op">,</span><span class="st">&#39;Letters&#39;</span><span class="op">,</span><span class="st">&#39;Autobiographies&#39;</span><span class="op">,</span><span class="st">&#39;Additional&#39;</span><span class="op">,</span><span class="st">&#39;Daybooks&#39;</span>]})</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a><span class="co">// Text to search by</span></span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>viewof text <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">text</span>({<span class="dt">label</span><span class="op">:</span> <span class="st">&quot;Word Search&quot;</span><span class="op">,</span> <span class="dt">placeholder</span><span class="op">:</span> <span class="st">&quot;Only show documents that say...&quot;</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -21963,52 +21987,38 @@ We will add a drop-down list of Topics when it comes
 </section>
 <section id="community-filters" class="level2">
 <h2 class="anchored" data-anchor-id="community-filters">Community Filters</h2>
+<p>Future Stuff</p>
 <div class="cell">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb2" data-startfrom="64" data-source-offset="-78"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 63;"><span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>communityList <span class="op">=</span> [</span>
-<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">name</span><span class="op">:</span><span class="st">&#39;Set to Default&#39;</span><span class="op">,</span><span class="dt">StartDate</span><span class="op">:</span><span class="st">&#39;1840-04-04&#39;</span><span class="op">,</span><span class="dt">EndDate</span><span class="op">:</span><span class="st">&#39;1880-04-04&#39;</span>}<span class="op">,</span></span>
-<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">name</span><span class="op">:</span><span class="st">&#39;Ducks&#39;</span><span class="op">,</span><span class="dt">StartDate</span><span class="op">:</span><span class="st">&#39;1840-08-04&#39;</span><span class="op">,</span><span class="dt">EndDate</span><span class="op">:</span><span class="st">&#39;1880-04-04&#39;</span>}</span>
-<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>viewof community <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">radio</span>(communityList<span class="op">,</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">&quot;Public Options&quot;</span><span class="op">,</span></span>
-<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a><span class="dt">sort</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">format</span><span class="op">:</span> x <span class="kw">=&gt;</span> x<span class="op">.</span><span class="at">name</span>})</span>
-<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a><span class="co">//maybe use MAP in the future</span></span>
-<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>community<span class="op">.</span><span class="at">StartDate</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3" data-startfrom="74" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 73;"><span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a><span class="co">//get csv from Google Drive, make each row like full={Name: __,StartDate:__}</span></span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>communityList <span class="op">=</span> [</span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">Name</span><span class="op">:</span><span class="st">&#39;Set to Default&#39;</span><span class="op">,</span><span class="dt">StartDate</span><span class="op">:</span><span class="st">&#39;1840-04-04&#39;</span><span class="op">,</span><span class="dt">EndDate</span><span class="op">:</span><span class="st">&#39;1880-04-04&#39;</span>}<span class="op">,</span></span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>  {<span class="dt">Name</span><span class="op">:</span><span class="st">&#39;Ducks&#39;</span><span class="op">,</span><span class="dt">StartDate</span><span class="op">:</span><span class="st">&#39;1840-08-04&#39;</span><span class="op">,</span><span class="dt">EndDate</span><span class="op">:</span><span class="st">&#39;1880-04-04&#39;</span>}</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-2-1" data-nodetype="declaration">
+<div id="ojs-cell-2" data-nodetype="declaration">
 
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-2-2" data-nodetype="declaration">
-
-</div>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<div id="ojs-cell-2-3" data-nodetype="expression">
-
-</div>
 </div>
 </div>
 </div>
 <div class="cell">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb3" data-startfrom="75" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 74;"><span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">set</span>(input<span class="op">,</span> value) {</span>
-<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>  input<span class="op">.</span><span class="at">value</span> <span class="op">=</span> value<span class="op">;</span></span>
-<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>  input<span class="op">.</span><span class="fu">dispatchEvent</span>(<span class="kw">new</span> <span class="bu">Event</span>(<span class="st">&quot;input&quot;</span><span class="op">,</span> {<span class="dt">bubbles</span><span class="op">:</span> <span class="kw">true</span>}))<span class="op">;</span></span>
-<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>Inputs<span class="op">.</span><span class="fu">button</span>([</span>
-<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>  [<span class="st">&quot;Set end date to 1880&quot;</span><span class="op">,</span> () <span class="kw">=&gt;</span> <span class="fu">set</span>(viewof enddate<span class="op">,</span> <span class="st">&#39;1880-01-01&#39;</span>)]<span class="op">,</span></span>
-<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>  [<span class="st">&quot;Set start date to 1840&quot;</span><span class="op">,</span> () <span class="kw">=&gt;</span> <span class="fu">set</span>(viewof startdate<span class="op">,</span> <span class="st">&#39;1840-01-01&#39;</span>)]</span>
-<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4" data-startfrom="85" data-source-offset="-0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 84;"><span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">set</span>(input<span class="op">,</span> value) {</span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a>  input<span class="op">.</span><span class="at">value</span> <span class="op">=</span> value<span class="op">;</span></span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>  input<span class="op">.</span><span class="fu">dispatchEvent</span>(<span class="kw">new</span> <span class="bu">Event</span>(<span class="st">&quot;input&quot;</span><span class="op">,</span> {<span class="dt">bubbles</span><span class="op">:</span> <span class="kw">true</span>}))<span class="op">;</span></span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a>story_df <span class="op">=</span> <span class="fu">transpose</span>(ojs_stories)</span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a>Inputs<span class="op">.</span><span class="fu">button</span>([</span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a>  [communityList[<span class="dv">0</span>]<span class="op">.</span><span class="at">Name</span><span class="op">,</span> () <span class="kw">=&gt;</span> [<span class="fu">set</span>(viewof enddate<span class="op">,</span> communityList[<span class="dv">0</span>]<span class="op">.</span><span class="at">EndDate</span>)<span class="op">,</span></span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">set</span>(viewof startdate<span class="op">,</span> communityList[<span class="dv">0</span>]<span class="op">.</span><span class="at">StartDate</span>)]]<span class="op">,</span></span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>  [story_df[<span class="dv">0</span>]<span class="op">.</span><span class="at">Name</span><span class="op">,</span> () <span class="kw">=&gt;</span> [<span class="fu">set</span>(viewof enddate<span class="op">,</span> story_df[<span class="dv">0</span>]<span class="op">.</span><span class="at">EndDate</span>)<span class="op">,</span></span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">set</span>(viewof startdate<span class="op">,</span> story_df[<span class="dv">0</span>]<span class="op">.</span><span class="at">StartDate</span>)]]</span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -22019,7 +22029,14 @@ We will add a drop-down list of Topics when it comes
 </div>
 <div class="cell-output cell-output-display">
 <div>
-<div id="ojs-cell-3-2" data-nodetype="expression">
+<div id="ojs-cell-3-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<div id="ojs-cell-3-3" data-nodetype="expression">
 
 </div>
 </div>
@@ -22035,26 +22052,26 @@ We will add a drop-down list of Topics when it comes
 <div class="cell">
 <details>
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb4" data-startfrom="95" data-source-offset="-2"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 94;"><span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a>searched <span class="op">=</span> df<span class="op">.</span><span class="fu">filter</span>(row <span class="kw">=&gt;</span> {</span>
-<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">const</span> key <span class="kw">in</span> row){</span>
-<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (row<span class="op">.</span><span class="fu">hasOwnProperty</span>(key) <span class="op">&amp;&amp;</span> row[key]<span class="op">.</span><span class="fu">toString</span>()<span class="op">.</span><span class="fu">toLowerCase</span>()<span class="op">.</span><span class="fu">includes</span>(text)) {</span>
-<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
-<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a>    <span class="co">//Just the right document type</span></span>
-<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">filter</span>(<span class="kw">function</span>(d) {</span>
-<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> journalType<span class="op">.</span><span class="fu">includes</span>(d[<span class="st">&#39;Document Type&#39;</span>])<span class="op">;</span></span>
-<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a>})    <span class="co">// Just the dates</span></span>
-<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> <span class="bu">Date</span><span class="op">.</span><span class="fu">parse</span>(d<span class="op">.</span><span class="at">date</span>) <span class="op">&gt;</span> startdate </span>
-<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a>            <span class="op">&amp;&amp;</span> <span class="bu">Date</span><span class="op">.</span><span class="fu">parse</span>(d<span class="op">.</span><span class="at">date</span>) <span class="op">&lt;</span> enddate)<span class="op">;</span></span>
-<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a>viewof table <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">table</span>(searched<span class="op">,</span> </span>
-<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a>    <span class="dt">columns</span><span class="op">:</span>[<span class="st">&quot;Document Type&quot;</span><span class="op">,</span><span class="st">&quot;Short URL&quot;</span><span class="op">,</span><span class="st">&#39;date&#39;</span><span class="op">,</span><span class="st">&quot;Topics&quot;</span>]<span class="op">,</span></span>
-<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a>    <span class="dt">rows</span><span class="op">:</span><span class="dv">20</span>}</span>
-<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5" data-startfrom="108" data-source-offset="-1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 107;"><span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a>searched <span class="op">=</span> df<span class="op">.</span><span class="fu">filter</span>(row <span class="kw">=&gt;</span> {</span>
+<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">const</span> key <span class="kw">in</span> row){</span>
+<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (row<span class="op">.</span><span class="fu">hasOwnProperty</span>(key) <span class="op">&amp;&amp;</span> row[key]<span class="op">.</span><span class="fu">toString</span>()<span class="op">.</span><span class="fu">toLowerCase</span>()<span class="op">.</span><span class="fu">includes</span>(text)) {</span>
+<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a>    <span class="co">//Just the right document type</span></span>
+<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">filter</span>(<span class="kw">function</span>(d) {</span>
+<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> journalType<span class="op">.</span><span class="fu">includes</span>(d[<span class="st">&#39;Document Type&#39;</span>])<span class="op">;</span></span>
+<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a>})    <span class="co">// Just the dates</span></span>
+<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">filter</span>(d <span class="kw">=&gt;</span> <span class="bu">Date</span><span class="op">.</span><span class="fu">parse</span>(d<span class="op">.</span><span class="at">date</span>) <span class="op">&gt;</span> startdate </span>
+<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a>            <span class="op">&amp;&amp;</span> <span class="bu">Date</span><span class="op">.</span><span class="fu">parse</span>(d<span class="op">.</span><span class="at">date</span>) <span class="op">&lt;</span> enddate)<span class="op">;</span></span>
+<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a>viewof table <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">table</span>(searched<span class="op">,</span> </span>
+<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a>    <span class="dt">columns</span><span class="op">:</span>[<span class="st">&quot;Document Type&quot;</span><span class="op">,</span><span class="st">&quot;Short URL&quot;</span><span class="op">,</span><span class="st">&#39;date&#39;</span><span class="op">,</span><span class="st">&quot;Topics&quot;</span>]<span class="op">,</span></span>
+<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a>    <span class="dt">rows</span><span class="op">:</span><span class="dv">20</span>}</span>
+<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
@@ -22087,13 +22104,13 @@ makeCSV = {
     createCSV(searched)
 }
 
-
-<button onclick="pushToGitHub()">Push CSV to GitHub</button>
-  <script src="script.js"></script>
 -->
 </section>
 <section id="submit" class="level2">
 <h2 class="anchored" data-anchor-id="submit">Submit</h2>
+<button id="myButton">
+Save your Story
+</button>
 </section>
 <section id="choose-your-display" class="level2">
 <h2 class="anchored" data-anchor-id="choose-your-display">Choose your Display</h2>
@@ -22116,7 +22133,7 @@ makeCSV = {
 <!-- /main column -->
 
 <script type="ojs-module-contents">
-{"contents":[{"methodName":"interpret","cellName":"ojs-cell-1","inline":false,"source":"\r\ndf = d3.csv(\"https://raw.githubusercontent.com/wilfordwoodruff/Public_Stories/main/data/derived/derived_data.csv\")\r\n//Date format changed from sample, needs new column\r\n\r\n// Starting date, match the first journal\r\nviewof startdate = Inputs.date({label: \"Start\",value: '1841-01-01', min: \"1841-01-01\", max: \"1898-02-08\"})\r\n\r\n// End date, matches the last journal\r\nviewof enddate = Inputs.date({label: \"End\",value: '1898-02-08', min: \"1841-01-01\", max: \"1898-02-08\"})\r\n\r\n\r\n// Pick which journal type to see\r\nviewof journalType = Inputs.checkbox(['Journals','Discourses','Letters','Autobiographies','Additional','Daybooks'],{label:'Document Type', value: ['Journals','Discourses','Letters','Autobiographies','Additional','Daybooks']})\r\n\r\n// Text to search by\r\nviewof text = Inputs.text({label: \"Word Search\", placeholder: \"Only show documents that say...\"})\r\n\r\n\r\n"},{"methodName":"interpret","cellName":"ojs-cell-2","inline":false,"source":"//get csv from Google Drive, make each row like full={Name: __,StartDate:__}\r\ncommunityList = [\r\n  {name:'Set to Default',StartDate:'1840-04-04',EndDate:'1880-04-04'},\r\n  {name:'Ducks',StartDate:'1840-08-04',EndDate:'1880-04-04'}\r\n]\r\nviewof community = Inputs.radio(communityList, {label: \"Public Options\",\r\nsort: true, format: x => x.name})\r\n//maybe use MAP in the future\r\ncommunity.StartDate\r\n"},{"methodName":"interpret","cellName":"ojs-cell-3","inline":false,"source":"function set(input, value) {\r\n  input.value = value;\r\n  input.dispatchEvent(new Event(\"input\", {bubbles: true}));\r\n}\r\n\r\nInputs.button([\r\n  [\"Set end date to 1880\", () => set(viewof enddate, '1880-01-01')],\r\n  [\"Set start date to 1840\", () => set(viewof startdate, '1840-01-01')]\r\n])\r\n"},{"methodName":"interpret","cellName":"ojs-cell-4","inline":false,"source":"\r\nsearched = df.filter(row => {\r\n    for (const key in row){\r\n        if (row.hasOwnProperty(key) && row[key].toString().toLowerCase().includes(text)) {\r\n            return true;\r\n        }\r\n    }\r\n    return false;\r\n    })\r\n    //Just the right document type\r\n    .filter(function(d) {\r\n        return journalType.includes(d['Document Type']);\r\n})    // Just the dates\r\n    .filter(d => Date.parse(d.date) > startdate \r\n            && Date.parse(d.date) < enddate);\r\n\r\nviewof table = Inputs.table(searched, \r\n    {\r\n    columns:[\"Document Type\",\"Short URL\",'date',\"Topics\"],\r\n    rows:20}\r\n)\r\n"},{"methodName":"interpretQuiet","source":"shinyInput('startdate')"},{"methodName":"interpretQuiet","source":"shinyInput('enddate')"},{"methodName":"interpretQuiet","source":"shinyInput('journalType')"},{"methodName":"interpretQuiet","source":"shinyInput('text')"},{"methodName":"interpretQuiet","source":"shinyInput('community')"},{"methodName":"interpretQuiet","source":"shinyInput('table')"}]}
+{"contents":[{"methodName":"interpret","cellName":"ojs-cell-1","inline":false,"source":"\ndf = d3.csv(\"https://raw.githubusercontent.com/wilfordwoodruff/Public_Stories/main/data/derived/derived_data.csv\")\n//Date format changed from sample, needs new column\n\n// Starting date, match the first journal\nviewof startdate = Inputs.date({label: \"Start\",value: '1841-01-01', min: \"1841-01-01\", max: \"1898-02-08\"})\n\n// End date, matches the last journal\nviewof enddate = Inputs.date({label: \"End\",value: '1898-02-08', min: \"1841-01-01\", max: \"1898-02-08\"})\n\n\n// Pick which journal type to see\nviewof journalType = Inputs.checkbox(['Journals','Discourses','Letters','Autobiographies','Additional','Daybooks'],{label:'Document Type', value: ['Journals','Discourses','Letters','Autobiographies','Additional','Daybooks']})\n\n// Text to search by\nviewof text = Inputs.text({label: \"Word Search\", placeholder: \"Only show documents that say...\"})\n\n"},{"methodName":"interpret","cellName":"ojs-cell-2","inline":false,"source":"//get csv from Google Drive, make each row like full={Name: __,StartDate:__}\n\ncommunityList = [\n  {Name:'Set to Default',StartDate:'1840-04-04',EndDate:'1880-04-04'},\n  {Name:'Ducks',StartDate:'1840-08-04',EndDate:'1880-04-04'}\n]\n\n"},{"methodName":"interpret","cellName":"ojs-cell-3","inline":false,"source":"function set(input, value) {\n  input.value = value;\n  input.dispatchEvent(new Event(\"input\", {bubbles: true}));\n}\nstory_df = transpose(ojs_stories)\n\nInputs.button([\n  [communityList[0].Name, () => [set(viewof enddate, communityList[0].EndDate),\n                                set(viewof startdate, communityList[0].StartDate)]],\n  [story_df[0].Name, () => [set(viewof enddate, story_df[0].EndDate),\n                                set(viewof startdate, story_df[0].StartDate)]]\n])\n"},{"methodName":"interpret","cellName":"ojs-cell-4","inline":false,"source":"\nsearched = df.filter(row => {\n    for (const key in row){\n        if (row.hasOwnProperty(key) && row[key].toString().toLowerCase().includes(text)) {\n            return true;\n        }\n    }\n    return false;\n    })\n    //Just the right document type\n    .filter(function(d) {\n        return journalType.includes(d['Document Type']);\n})    // Just the dates\n    .filter(d => Date.parse(d.date) > startdate \n            && Date.parse(d.date) < enddate);\n\nviewof table = Inputs.table(searched, \n    {\n    columns:[\"Document Type\",\"Short URL\",'date',\"Topics\"],\n    rows:20}\n)\n"},{"methodName":"interpretQuiet","source":"shinyInput('startdate')"},{"methodName":"interpretQuiet","source":"shinyInput('enddate')"},{"methodName":"interpretQuiet","source":"shinyInput('journalType')"},{"methodName":"interpretQuiet","source":"shinyInput('text')"},{"methodName":"interpretQuiet","source":"shinyInput('table')"}]}
 </script>
 <script type="module">
 window._ojs.runtime.setLocalResolver({});
