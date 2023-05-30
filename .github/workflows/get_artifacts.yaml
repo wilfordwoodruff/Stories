@@ -1,4 +1,4 @@
-name: Get Artifacts
+name: Collect and Store Artifacts
 
 on:
   schedule:
@@ -6,21 +6,21 @@ on:
   workflow_dispatch: # allow manual triggering
 
 jobs:
-  get_artifacts:
+  collect_and_store_artifacts:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Source Code
         uses: actions/checkout@v2
 
-      - name: Setup .NET
+      - name: Configure .NET Environment
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 3.1.301
 
-      - name: Check issues in org repos
+      - name: Artifact Collection from Organization Repositories
         run: |
-          # Set necessary variables
+          # Set required variables
           org_name="wilfordwoodruff" # replace with your organization name
           token=${{ secrets.TYLER_PAT }}
           base_url=https://api.github.com
@@ -52,7 +52,7 @@ jobs:
             fi
           done
 
-      - name: Create new branch and commit changes
+      - name: Branch Creation and Committing Changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
