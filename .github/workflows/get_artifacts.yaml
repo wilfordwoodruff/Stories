@@ -1,0 +1,38 @@
+name: Get Artifacts
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  get_artifacts:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Check for command in issue
+      id: command
+      run: |
+        command=$(echo "${{ github.event.issue.body }}" | grep -i "grab my artifacts")
+        echo "::set-output name=command::$command"
+    - name: Download and store artifacts
+      if: steps.command.outputs.command
+      run: |
+        # set necessary variables
+        repo_name=${{ github.repository }}
+        token=${{ secrets.TYLER_PAT }}
+        base_url=https://api.github.com/repos/$repo_name/actions/artifacts
+
+        # get the list of artifacts
+        artifact_list=$(curl -H "Authorization: token $token" $base_url)
+        artifact_ids=$(echo "$artifact_list" | jq '.artifacts[].id')
+
+        # download and unzip each artifact
+        for id in $artifact_ids; do
+          download_url="$base_url/$id/zip"
+          curl -H "Authorization: token $token" \
+               -LJO $download_url
+          unzip $id.zip -d artifacts/$repo_name
+        done
