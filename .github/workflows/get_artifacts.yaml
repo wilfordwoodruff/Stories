@@ -1,10 +1,9 @@
-name: Get Artifacts from Org Repos
+name: Get Artifacts
 
 on:
   schedule:
     - cron: '0 0 * * 0' # run every Sunday at 00:00
   workflow_dispatch: # allow manual triggering
-
 jobs:
   get_artifacts:
     runs-on: ubuntu-latest
@@ -13,10 +12,15 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+
     - name: Check issues in org repos
       run: |
         # set necessary variables
-        org_name="wilfordwoodruff" # replace with your organization name
+        org_name="your-org-name" # replace with your organization name
         token=${{ secrets.TYLER_PAT }}
         base_url=https://api.github.com
 
@@ -46,3 +50,12 @@ jobs:
             done
           fi
         done
+
+    - name: Create new branch and commit changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git checkout -b dev
+        git add -A
+        git commit -m "Add artifacts from repos"
+        git push origin dev
