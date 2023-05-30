@@ -13,16 +13,17 @@ library(googledrive)
 library(tidyverse)
 library(DT)
 
+
+writings <- read_csv('https://raw.githubusercontent.com/wilfordwoodruff/Public_Stories/main/code/Stories/maps/Sample%20Subset.csv')
+
 drive_id <- drive_find('User Stories')
 #tell terminal to answer "2"
 stories <- drive_get(drive_id$id) %>%
   read_sheet()
 
-writings <- read_csv('https://raw.githubusercontent.com/wilfordwoodruff/Public_Stories/main/code/Stories/maps/Sample%20Subset.csv')
-
 # Define UI for application that draws a histogram
 ui <- fluidPage(
-
+  theme = bslib::bs_theme(bootswatch = "united"),
     # Application title
     titlePanel("Explore President Woodruff's Diaries"),
 
@@ -32,6 +33,7 @@ ui <- fluidPage(
             selectInput(inputId='chosen_preset',
                       label='See What Others have Found!',
                       choices=stories$Name),
+            br(),
             dateRangeInput(inputId = "startEndDate",
                            label="Writing Period",
                            start=min(writings$`First Date`),
@@ -49,6 +51,7 @@ ui <- fluidPage(
             textInput(inputId='word_search',
                       label='Search for a Word',
                       value= "Utah"),
+            br(),
             textInput(inputId='submit_name',
                       label='Name Your Discovery!'),
             textAreaInput(inputId='submit_description',
@@ -61,13 +64,23 @@ ui <- fluidPage(
 
         # Show a plot of the generated distribution
         mainPanel(
-           tableOutput("fiverows")#,plotOutput("distplot")
+          tabsetPanel(
+            tabPanel("See Dataset",
+             tableOutput("fiverows")#,plotOutput("distplot")
+            ),
+            tabPanel("See Graphs",
+                    plotOutput("all_graphs")
+                    
+            )
+           )
         )
     )
 )
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
+
+  
   user_filters <- reactiveValues()
   user_filters$submit <- 0
   
@@ -86,8 +99,8 @@ server <- function(input, output) {
     }
     if(input$saveStory > user_filters$submit) {
       current_submission <- c(input$submit_name,
-                              NA, #Start Day
-                              NA, #End Day
+                              ymd(input$startenddate[1]), #Start Day
+                              ymd(input$startenddate[2]), #End Day
                               input$word_search,
                               input$journal_type,
                               NA,
@@ -100,13 +113,34 @@ server <- function(input, output) {
   output$fiverows <- renderTable({
     writings %>%
       mutate(`Word Count`=str_count(`Text Only Transcript`,user_filters$wordsearch)) %>%
-      select(`Document Type`,`Short URL`,Places,Dates,`Word Count`) %>%
-      filter(`Word Count` > 0) %>%
+      select(`Document Type`,`Text Only Transcript`,Places,Dates,`Word Count`) %>%
+      filter(`Word Count` > 0 & `Document Type` %in% input$journal_type) %>%
+      #add date filter
       head()}
     
   )
-  #output$saveData <- write_sheet(data=stories,ss=drive_id$id,sheet='Sheet1')
+  #Plots--------------------
+  output$sentiment_graph <- renderGraph({
+    #ggplot stuff here, 
+  })
+  output$location_graph <- renderGraph({
+    
+  })
+  output$frequency_graph <- renderGraph({
+    
+  })
+  
 }
+
+"
+Main pieces to filter by:
+user_filters$startdate
+            $enddate
+            $word_search
+            $journal_type
+"
+
+
 "
 output$distPlot <- renderPlot({
   # generate bins based on input$bins from ui.R
