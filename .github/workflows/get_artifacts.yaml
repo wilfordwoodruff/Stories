@@ -4,62 +4,57 @@ on:
   schedule:
     - cron: '0 0 * * 0' # run every Sunday at 00:00
   workflow_dispatch: # allow manual triggering
+
 jobs:
   get_artifacts:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.301
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.301
 
-    - name: Check issues in org repos
-      run: |
-        # set necessary variables
-        org_name="your-org-name" # replace with your organization name
-        token=${{ secrets.TYLER_PAT }}
-        base_url=https://api.github.com
+      - name: Check issues in org repo
+        run: |
+          # Set necessary variables
+          org_name="your-org-name" # replace with your organization name
+          repo_name="your-repo-name" # replace with the target repository name
+          token=${{ secrets.TYLER_PAT }}
+          base_url=https://api.github.com
 
-        # get the list of repos
-        repo_list=$(curl -H "Authorization: token $token" $base_url/orgs/$org_name/repos)
-        repo_names=$(echo "$repo_list" | jq -r '.[].name')
+          # Get the list of issues
+          issue_list=$(curl -H "Authorization: token $token" $base_url/repos/$org_name/$repo_name/issues)
 
-        # iterate through each repo
-        for repo in $repo_names; do
-          # get the list of issues
-          issue_list=$(curl -H "Authorization: token $token" $base_url/repos/$org_name/$repo/issues)
-
-          # check if any issue contains "Grab my artifacts"
+          # Check if any issue contains "Grab my artifacts"
           command=$(echo "$issue_list" | jq -r '.[] | select(.body | contains("Grab my artifacts"))')
 
-          # if an issue is found, download artifacts
+          # If an issue is found, download artifacts
           if [ -n "$command" ]; then
-            artifact_list=$(curl -H "Authorization: token $token" $base_url/repos/$org_name/$repo/actions/artifacts)
+            artifact_list=$(curl -H "Authorization: token $token" $base_url/repos/$org_name/$repo_name/actions/artifacts)
             artifact_ids=$(echo "$artifact_list" | jq '.artifacts[].id')
 
-            # download and unzip each artifact
+            # Download and unzip each artifact
             for id in $artifact_ids; do
-              download_url="$base_url/repos/$org_name/$repo/actions/artifacts/$id/zip"
+              download_url="$base_url/repos/$org_name/$repo_name/actions/artifacts/$id/zip"
               curl -H "Authorization: token $token" \
                    -LJO $download_url
-              unzip $id.zip -d artifacts/$repo
+              unzip $id.zip -d artifacts/$repo_name
             done
           fi
-        done
 
-    - name: Create new branch and commit changes
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git checkout -b dev
-        git add -A
-        if [[ `git status --porcelain` ]]; then
-          git commit -m "Add artifacts from repos"
-          git push origin dev
-        else
-          echo "No changes to commit"
-        fi
+      - name: Create new branch and commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git checkout -b dev
+          git add -A
+          if [[ `git status --porcelain` ]]; then
+            git commit -m "Add artifacts from repo"
+            git push origin dev
+          else
+            echo "No changes to commit"
+          fi
