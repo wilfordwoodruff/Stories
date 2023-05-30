@@ -13,12 +13,12 @@ jobs:
       - name: Checkout Source Code
         uses: actions/checkout@v2
 
-      - name: Configure .NET Environment
-        uses: actions/setup-dotnet@v1
+      - name: Set up Python
+        uses: actions/setup-python@v2
         with:
-          dotnet-version: 3.1.301
+          python-version: '3.11' # Adjust as needed
 
-      - name: Artifact Collection from Organization Repositories
+      - name: Build Projects and Collect Artifacts
         run: |
           # Set required variables
           org_name="wilfordwoodruff" # replace with your organization name
@@ -31,25 +31,28 @@ jobs:
 
           # Iterate through each repository
           for repo in $repo_names; do
-            # Get the list of issues
-            issue_list=$(curl -H "Authorization: token $token" $base_url/repos/$org_name/$repo/issues)
+            # Clone the repo
+            git clone https://github.com/$org_name/$repo.git
 
-            # Check if any issue contains "Grab my artifacts"
-            command=$(echo "$issue_list" | jq -r '.[] | select(.body | contains("Grab my artifacts"))')
+            # Go to the repo directory
+            cd $repo
 
-            # If an issue is found, download artifacts
-            if [ -n "$command" ]; then
-              artifact_list=$(curl -H "Authorization: token $token" $base_url/repos/$org_name/$repo/actions/artifacts)
-              artifact_ids=$(echo "$artifact_list" | jq '.artifacts[].id')
+            # Install Python dependencies and build project
+            # This is just an example, you should adjust this to match your build process
+            python3 -m venv venv
+            source venv/bin/activate
+            pip install -r requirements.txt
+            # python your_build_script.py
 
-              # Download and unzip each artifact
-              for id in $artifact_ids; do
-                download_url="$base_url/repos/$org_name/$repo/actions/artifacts/$id/zip"
-                curl -H "Authorization: token $token" \
-                     -LJO $download_url
-                unzip $id.zip -d artifacts/$repo
-              done
-            fi
+            # Collect artifacts
+            # This step is highly dependent on your project structure and the location of your build artifacts
+            # cp ./path/to/artifacts ../artifacts/$repo
+
+            # Go back to the root directory
+            cd ..
+
+            # Delete the cloned repo
+            rm -rf $repo
           done
 
       - name: Branch Creation and Committing Changes
