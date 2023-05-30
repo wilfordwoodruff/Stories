@@ -1,8 +1,9 @@
-name: Get Artifacts
+name: Get Artifacts from Org Repos
 
 on:
-  issues:
-    types: [opened, edited]
+  schedule:
+    - cron: '0 0 * * 0' # run every Sunday at 00:00
+  workflow_dispatch: # allow manual triggering
 
 jobs:
   get_artifacts:
@@ -12,27 +13,36 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Check for command in issue
-      id: command
-      run: |
-        command=$(echo "${{ github.event.issue.body }}" | grep -i "grab my artifacts")
-        echo "::set-output name=command::$command"
-    - name: Download and store artifacts
-      if: steps.command.outputs.command
+    - name: Check issues in org repos
       run: |
         # set necessary variables
-        repo_name=${{ github.repository }}
+        org_name="wilfordwoodruff" # replace with your organization name
         token=${{ secrets.TYLER_PAT }}
-        base_url=https://api.github.com/repos/$repo_name/actions/artifacts
+        base_url=https://api.github.com
 
-        # get the list of artifacts
-        artifact_list=$(curl -H "Authorization: token $token" $base_url)
-        artifact_ids=$(echo "$artifact_list" | jq '.artifacts[].id')
+        # get the list of repos
+        repo_list=$(curl -H "Authorization: token $token" $base_url/orgs/$org_name/repos)
+        repo_names=$(echo "$repo_list" | jq -r '.[].name')
 
-        # download and unzip each artifact
-        for id in $artifact_ids; do
-          download_url="$base_url/$id/zip"
-          curl -H "Authorization: token $token" \
-               -LJO $download_url
-          unzip $id.zip -d artifacts/$repo_name
+        # iterate through each repo
+        for repo in $repo_names; do
+          # get the list of issues
+          issue_list=$(curl -H "Authorization: token $token" $base_url/repos/$org_name/$repo/issues)
+
+          # check if any issue contains "Grab my artifacts"
+          command=$(echo "$issue_list" | jq -r '.[] | select(.body | contains("Grab my artifacts"))')
+
+          # if an issue is found, download artifacts
+          if [ -n "$command" ]; then
+            artifact_list=$(curl -H "Authorization: token $token" $base_url/repos/$org_name/$repo/actions/artifacts)
+            artifact_ids=$(echo "$artifact_list" | jq '.artifacts[].id')
+
+            # download and unzip each artifact
+            for id in $artifact_ids; do
+              download_url="$base_url/repos/$org_name/$repo/actions/artifacts/$id/zip"
+              curl -H "Authorization: token $token" \
+                   -LJO $download_url
+              unzip $id.zip -d artifacts/$repo
+            done
+          fi
         done
