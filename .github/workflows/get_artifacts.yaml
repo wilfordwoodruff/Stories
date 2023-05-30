@@ -57,5 +57,9 @@ jobs:
         git config --local user.name "GitHub Action"
         git checkout -b dev
         git add -A
-        git commit -m "Add artifacts from repos"
-        git push origin dev
+        if [[ `git status --porcelain` ]]; then
+          git commit -m "Add artifacts from repos"
+          git push origin dev
+        else
+          echo "No changes to commit"
+        fi
